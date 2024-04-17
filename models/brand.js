@@ -1,11 +1,9 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Brand = sequelize.define('Brand', {
         Brand : {
-            type : Sequelize.DataTypes.TEXT,
-            validate : {
-                allowNull : false,
-                msg : "Name cannot be empty."
-            },
+            type : Sequelize.DataTypes.STRING(100),
+            allowNull : false,
+            unique : { msg : 'Brand already exists.'}
         },
     }, { timestamps : false },);
     Brand.associate = function(models) {

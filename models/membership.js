@@ -4,16 +4,26 @@ module.exports = ( sequelize, Sequelize ) => {
             type : Sequelize.DataTypes.INTEGER,
             primaryKey : true,
         },
-     Membership : Sequelize.DataTypes.STRING,
-     minItems : Sequelize.DataTypes.INTEGER,
-     maxItems : Sequelize.DataTypes.INTEGER,
-     discount : Sequelize.DataTypes.INTEGER
+        Membership : {
+            type : Sequelize.DataTypes.STRING(100),
+                allowNull : false,
+        },
+        minItems : {
+            type : Sequelize.DataTypes.INTEGER,
+                allowNull : false
+        },
+        maxItems : {
+            type : Sequelize.DataTypes.INTEGER,
+                allowNull : false
+        },
+        discount : {
+            type : Sequelize.DataTypes.INTEGER,
+                allowNull : false
+        },
     }, { timestamps : false }, 
 );
  Membership.associate = function(models) {
-     Membership.belongsToMany( models.User, { through : models.UserMembership, foreignKey : 'MembershipId', defaultValue : 1, onDelete : 'RESTRICT'})
+     Membership.belongsToMany( models.User, { through : models.UserMembership, foreignKey : 'MembershipId',  onDelete : 'RESTRICT'})
     };
     return Membership
-}
-
-//defaultValue : 1 (Bronze) 
+} 

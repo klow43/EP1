@@ -5,19 +5,15 @@ module.exports = ( sequelize, Sequelize ) => {
                 primaryKey : true,
             },
             Role : {
-                type : Sequelize.DataTypes.STRING,
-                validate : {
+                type : Sequelize.DataTypes.STRING(50),
                     allowNull : false,
                     isAlpha : true,
-                    msg : "Role must consist of letters"
-                },
             },
         }, { timestamps : false }, 
     );
         Role.associate = function(models) {
-            Role.belongsToMany( models.User, { through : models.UserRole, defaultValue : 2, foreignKey : 'RoleId' })
+            Role.belongsToMany( models.User, { through : models.UserRole, foreignKey : 'RoleId', onDelete : ' RESTRICT' })
         };
         return Role
  }
 
-//defaultValue : 2 (User)

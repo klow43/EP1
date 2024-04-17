@@ -1,11 +1,9 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Category = sequelize.define('Category', {
         Category : {
-            type : Sequelize.DataTypes.STRING,
-            validate : {
+            type : Sequelize.DataTypes.STRING(100),
                 allowNull : false,
-                msg : "Name cannot be empty."
-            },
+                unique : true
         },
     }, { timestamps : false },);
     Category.associate = function(models) {

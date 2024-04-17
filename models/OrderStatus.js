@@ -1,12 +1,10 @@
 module.exports = ( sequelize, Sequelize ) => {
     const OrderStatus = sequelize.define('OrderStatus', { 
-        Status : Sequelize.DataTypes.TEXT,
+        Status : Sequelize.DataTypes.STRING(150),
     }, { timestamps : false },
     )
     OrderStatus.associate = function(models) {
-        OrderStatus.belongsToMany( models.Order, { through : 'OrderProgress', defaultValue : 1 })
+        OrderStatus.belongsToMany( models.Order, { through : 'OrderProgress' })
     };
     return OrderStatus  
 };
-
-//default value : 1 (In progress) 

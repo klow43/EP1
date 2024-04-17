@@ -1,47 +1,39 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Product = sequelize.define('Product', {
         name : {
-            type : Sequelize.DataTypes.STRING,
-                validate : {
+            type : Sequelize.DataTypes.STRING(100),
                     allowNull : false,
-                    msg : "Name must be provided."
-                }, 
+                    unique : { msg : 'Product already exists.'}
               },   
-        description :  Sequelize.DataTypes.STRING,
+        //not requiring description
+        description :  Sequelize.DataTypes.STRING(255),
         price : {
-                type : Sequelize.DataTypes.FLOAT,
-                validate : {
-                    allowNull : false,
-                    msg : "Price must be provided."
-                },
+                type : Sequelize.DataTypes.DOUBLE(10,2),
+                    allowNull :  { msg : 'Price must be present.'}
             },
         quantity : {
                 type : Sequelize.DataTypes.INTEGER,
-                validate : {
-                    allowNull : false,
-                    isInt : true,
-                    msg : "Quantity must be provided in form of number."   
-                }
-            },
-        isDeleted : {
-                type : Sequelize.DataTypes.BOOLEAN,
-                defaultValue : 0
+                    allowNull : { msg : 'Quantity must be present.'},
+                    isInt : { msg : 'Quantity must be a number.'},
             },
         imgurl : {
-                type : Sequelize.DataTypes.STRING,
-                validate : {
-                    isUrl : true,
-                    allowNull : true,
-                    msg : "Please provide image url for product"
+                type : Sequelize.DataTypes.STRING(255),
+                    isUrl : { msg : 'Invalid url'},
+                    allowNull : { msg : 'Invalid url'},
+            }
+        }, {
+            hooks : {
+                //if quantity gets to 0, softDelete(paranoid)
+                afterValidate : () => {
+                        Product.destroy({where : { quantity : 0 }});
                 }
-            },
-        discount : Sequelize.DataTypes.INTEGER,
-        date_added : Sequelize.DataTypes.DATE,
-       
-    }, { timestamps : true }, 
-);
+            }
+        },{ timestamps : true, paranoid : true, deletedAt : 'isDeleted' }, 
+    );
     Product.associate = function(models) {
         Product.belongsToMany( models.Cart, { as : 'Product', through : models.CartProduct, foreignKey : 'ProductId'}) 
     };
     return Product
 }
+
+
