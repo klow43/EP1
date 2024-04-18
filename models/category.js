@@ -1,9 +1,9 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Category = sequelize.define('Category', {
         Category : {
-            type : Sequelize.DataTypes.STRING(100),
+                type : Sequelize.DataTypes.STRING(100),
                 allowNull : false,
-                unique : true
+                unique : { msg : 'Category already exists.'}
         },
     }, { timestamps : false },);
     Category.associate = function(models) {

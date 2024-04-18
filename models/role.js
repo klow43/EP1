@@ -15,5 +15,5 @@ module.exports = ( sequelize, Sequelize ) => {
             Role.belongsToMany( models.User, { through : models.UserRole, foreignKey : 'RoleId', onDelete : ' RESTRICT' })
         };
         return Role
- }
+ } 
 

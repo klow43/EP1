@@ -34,20 +34,19 @@ module.exports = ( sequelize, Sequelize ) => {
             type : Sequelize.DataTypes.STRING(150),
             allowNull : { msg : "Address cannot be null." }
         }
-        }, { timestamps : true },
+        }, { timestamps : true,
+            hooks : {
+                //create membership,role,cart on register
+                afterCreate : async (User, options) => {
+                   await sequelize.models.UserMembership.create({ UserId : User.id});
+                   await sequelize.models.UserRole.create({ UserId : User.id});
+                   await sequelize.models.Cart.create({UserId : User.id});
+                }
+            }
+        },
     );
     User.associate = function(models) {
         User.belongsToMany( models.Order, { through : models.UserOrder })
-    },
-        {
-            hooks : {
-                //create membership,role,cart on register
-                afterCreate : (User) => {
-                    models.UserMembership.create({ UserId : User.id})
-                    models.UserRole.create({ UserId : User.id})
-                    models.Cart.create({UserId : User.id})
-                }
-            }
-        }
-    return User
+    }
+    return User  
 }; 

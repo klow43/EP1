@@ -20,19 +20,30 @@ module.exports = ( sequelize, Sequelize ) => {
                 type : Sequelize.DataTypes.STRING(255),
                     isUrl : { msg : 'Invalid url'},
                     allowNull : { msg : 'Invalid url'},
-            }
-        }, {
+            },
+        brandid : {
+            type : Sequelize.DataTypes.INTEGER,
+            allowNull : { msg : 'Brand must be provided.'}
+        },
+        categoryid : {
+            type : Sequelize.DataTypes.INTEGER,
+            allowNull : { msg : 'Category must be provided.'}
+        }
+        }, { timestamps : true, paranoid : true,
             hooks : {
-                //if quantity gets to 0, softDelete(paranoid)
-                afterValidate : () => {
-                        Product.destroy({where : { quantity : 0 }});
-                }
+                //create relationsips
+                afterCreate: async (product, callback) => {
+                        //if updating quantity of products, result in 0, soft delete(paranoid)
+                        Product.destroy({where : { quantity : 0, deletedAt : false }});
+                        await sequelize.models.ProductBrand.create({ BrandId : product.brandid, ProductId : product.id});
+                        await sequelize.models.ProductBrand.ProductCategory.create({CategoriId : product.categoryid, ProductId : product.id})
+                },
             }
-        },{ timestamps : true, paranoid : true, deletedAt : 'isDeleted' }, 
+        }, 
     );
     Product.associate = function(models) {
         Product.belongsToMany( models.Cart, { as : 'Product', through : models.CartProduct, foreignKey : 'ProductId'}) 
-    };
+    }
     return Product
 }
 

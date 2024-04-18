@@ -7,7 +7,12 @@ module.exports = ( sequelize, Sequelize ) => {
         membershiptatus : Sequelize.DataTypes.STRING(100),
         product : Sequelize.DataTypes.STRING(100),
         quantity : Sequelize.DataTypes.INTEGER
-        }, { timestamps : true }, 
+        }, { timestamps : true,
+        hooks : async (order, cb) => {
+                await sequelize.models.orderprogress.create({OrderId : order.id});
+                await sequelize.models.userorders.create({UserId : order.userId, OrderId : id})
+            }
+        }, 
     );
     return Order 
 }  
