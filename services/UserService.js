@@ -1,6 +1,8 @@
 const { Op } = require("sequelize");
 
 class UserService {
+    // @DeletedAt
+    // deletedAt;
     constructor(db) {
         this.client = db.sequelize;
         this.User = db.User;
@@ -14,7 +16,8 @@ class UserService {
             email : User.email,
             password : User.password,
             phone : User.phone,
-            adress : User.adress
+            userName : User.userName,
+            address : User.address
         }).catch( err => { console.log(err); return err })
     }
 
@@ -40,7 +43,8 @@ class UserService {
              email : User.email,
              password : User.password,
              phone : User.phone,
-             adress : User.adress
+             adress : User.adress,
+             userName : User.userName
         },{
         where : { id : Userid }
             }).catch( err => { console.log(err); return err })

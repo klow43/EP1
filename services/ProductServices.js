@@ -12,22 +12,26 @@ class ProductService {
             description : Product.description,
             price : Product.price,
             quantity : Product.quantity,
-            imgurl : Product.imgurl
+            imgurl : Product.imgurl,
+            brandid : Product.brandid,
+            categoryid : Product.categoryid
         }).catch(err => {console.log(err); return err })
     }
 
     //softDelete, table is Paranoid.
     async deleteProduct(Productid){
         return await this.Product.destroy({
-            where : { id : Productid}
+            where : { id : Productid.id}
         }).catch(err => {console.log(err); return err })
     }
 
-    //everyone can viwe products
+    //everyone can view products
     async getProducts(){
-        return await this.Product.findAll({})
+        return await this.Product.findAll({where : {}, paranoid : true})
         .catch(err => {console.log(err); return err })
     }
+
+    //get deleted products also : where : {}, paranoid : false
 
     //admin
     async alterProduct(oldProductid,newProduct){
@@ -37,7 +41,8 @@ class ProductService {
             price : newProduct.price,
             quantity : newProduct.quantity,
             imgurl : newProduct.imgurl,
-            discount : newProduct.discount
+            brandid : Product.brandid,
+            categoryid : Product.categoryid
         }, { where : { id : oldProductid }})
         .catch(err => {console.log(err); return err })
     }

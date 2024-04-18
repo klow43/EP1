@@ -4,10 +4,6 @@ class CategoryService {
         this.Category = db.Category;
     }
 
-    async findOrCreate(Category){
-        return this.Category.findOrCreate({ where : {Category : Category }})
-    }
-
     async createCategory(Category){
         return await this.Category.create({
             Category : Category
