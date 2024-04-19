@@ -1,3 +1,5 @@
+//assuming Product.brand and Product.category is sent from frontend when adding new product(dropdown)
+//Brand and category must be added before adding product.
 module.exports = ( sequelize, Sequelize ) => {
     const Product = sequelize.define('Product', {
         name : {
@@ -21,30 +23,25 @@ module.exports = ( sequelize, Sequelize ) => {
                     isUrl : { msg : 'Invalid url'},
                     allowNull : { msg : 'Invalid url'},
             },
-        brandid : {
-            type : Sequelize.DataTypes.INTEGER,
-            allowNull : { msg : 'Brand must be provided.'}
-        },
-        categoryid : {
-            type : Sequelize.DataTypes.INTEGER,
-            allowNull : { msg : 'Category must be provided.'}
-        }
-        }, { timestamps : true, paranoid : true,
+            deletedAt : {
+                type : Sequelize.DataTypes.BOOLEAN,
+                defaultValue : 0
+            }
+        }, { timestamps : true, paranoid : true, 
             hooks : {
-                //create relationsips
-                afterCreate: async (product, callback) => {
+                afterCreate: async (product, options) => {
                         //if updating quantity of products, result in 0, soft delete(paranoid)
                         Product.destroy({where : { quantity : 0, deletedAt : false }});
-                        await sequelize.models.ProductBrand.create({ BrandId : product.brandid, ProductId : product.id});
-                        await sequelize.models.ProductBrand.ProductCategory.create({CategoriId : product.categoryid, ProductId : product.id})
                 },
             }
         }, 
     );
     Product.associate = function(models) {
+        Product.hasOne(models.ProductBrand)
+        Product.hasOne(models.ProductCategory)
         Product.belongsToMany( models.Cart, { as : 'Product', through : models.CartProduct, foreignKey : 'ProductId'}) 
     }
-    return Product
-}
+    return Product  
+}  
 
 

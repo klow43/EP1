@@ -9,5 +9,5 @@ module.exports = ( sequelize, Sequelize ) => {
     Brand.associate = function(models) {
         Brand.belongsToMany( models.Product, { through : models.ProductBrand, foreignKey : 'BrandId', onDelete : 'RESTRICT' })
     };
-    return Brand
-}; 
+    return Brand 
+};  
