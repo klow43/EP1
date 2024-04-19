@@ -7,8 +7,9 @@ class DatabaseService {
 
     //raw query to insert json to db, responds to POST /init
     async InitialData(record){
-        sequelize.query(record.query, {raw : true})   
-        .catch(err => {console.log(err); return err })     
+        sequelize.query(
+            record.query, {raw : true}
+        ).catch(err => {console.log(err); return err })     
     }
 }
 

@@ -30,6 +30,12 @@ class OrderService {
         }).catch(err => {console.log(err); return err })
     }
 
+    async getOrder(orderid){
+        return await this.Order.findOne({
+            where : { id : orderid}       
+        })
+    }
+
     //get view of all orders(only Admin)
     async getAdmin(){
         return await this.Order.findAll()

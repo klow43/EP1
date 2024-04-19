@@ -8,7 +8,7 @@ class UserService {
         this.User = db.User;
     }
 
-    //create User on register of user.
+    //create User, create cart, memebership,role on create.
     async createUser(User){
         return await this.User.create({
             firstName : User.firstName,
@@ -21,20 +21,24 @@ class UserService {
         }).catch( err => { console.log(err); return err })
     }
 
-    //delete user(admin), no soft delete (GDPR)
+    //delete user(admin), no soft delete (GDPR), canoot delete admin
     async deleteUser(UserId){
         return await this.User.destroy({
             where : { Id : UserId, userName : { [Op.not] : Admin }}
         }).catch(err => { console.log(err); return err })
     }
 
-    //view users(admin)
-    async getUser(){
+    async getUsers(){
         return await this.User.findAll({ 
             where : {}
         }).catch( err => { console.log(err); return err })
     }
 
+    async getUser(userid){
+        return await this.User.findOne({
+            where : {id : userid}
+        }).catch( err => { console.log(err); return err })
+    }
 
     async updateUser(Userid, User){
         return await this.User.update({

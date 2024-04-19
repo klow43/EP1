@@ -21,6 +21,12 @@ class BrandService {
         .catch(err => {console.log(err); return err })
     }
 
+    async getBrand(brand){
+        return await this.Brand.findOne({
+            where : { Brand : brand }
+        }).catch(err => {console.log(err); return err }) 
+    }
+
     //only alter brand names of id.
     async alterBrand(Brandid,newBrand){
         return await this.Brand.update({

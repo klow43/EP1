@@ -12,8 +12,10 @@ class ProductRelationService {
         }).catch(err => {console.log(err); return err })
     }
 
-    async getProductBrand(){
-        return await this.ProductBrand.findAll({})
+    async getProductBrand(productid, brandid){
+        return await this.ProductBrand.findOne({
+            where : {ProductId : productid, BrandId : brandid}
+        })
         .catch(err => {console.log(err); return err })
     }
 
@@ -32,8 +34,10 @@ class ProductRelationService {
         }).catch(err => {console.log(err); return err })
     }
 
-    async getProductCategory(){
-        return await this.ProductCategory.findAll({})
+    async getProductCategory(productid, categoryid){
+        return await this.ProductCategory.findOne({
+            where : {ProductId : productid, CategoryId : categoryid}
+        })
         .catch(err => {console.log(err); return err })
     }
 

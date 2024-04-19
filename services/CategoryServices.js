@@ -19,9 +19,15 @@ class CategoryService {
         .catch(err => {console.log(err); return err })
     }
 
-    async getCategory(){
+    async getCategories(){
         return await this.Category.findAll()
         .catch(err => {console.log(err); return err })
+    }
+
+    async getCategory(category){
+        return this.Category.findOne({
+            where : { Category : category }
+        }).catch(err => {console.log(err); return err }) 
     }
 
         //only alter Categoryname of id.

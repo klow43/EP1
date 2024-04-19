@@ -27,6 +27,12 @@ class MembershipService {
         return await this.Membership.findAll()
     }
 
+    async getMembership(membershipid){
+        return await this.Membership.findOne({
+            where : { id : membershipid}
+        }).catch(err => {console.log(err); return err })
+    }
+
     //change values in membership of id.
     async alterMembership(id, newMembership) {
         return await this.Membership.update({
