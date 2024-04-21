@@ -4,6 +4,16 @@ class MembershipService {
         this.Membership = db.Membership;
     }
 
+    async getMembership(membershipid){
+        return await this.Membership.findOne({
+            where : { id : membershipid}
+        }).catch( err => { console.log(err); return err })
+    }
+
+    async getMemberships(){
+        return await this.Membership.findAll()
+    }
+
     async createMembership(Membership){
         return await this.Membership.create({
             id : Membership.id,
@@ -11,26 +21,7 @@ class MembershipService {
             minItems : Membership.minItems,
             maxItems : Membership.maxItems,
             discount : Membership.discount
-        })
-        .catch(err => {console.log(err); return err })  
-    }
-
-    //no delete if in use, restrict.
-    async deleteMembership(Membershipid){
-        return await this.Membership.destroy({
-            where : { id : Membershipid }
-        })
-        .catch(err => {console.log(err); return err })
-    }
-
-    async getMemberships(){
-        return await this.Membership.findAll()
-    }
-
-    async getMembership(membershipid){
-        return await this.Membership.findOne({
-            where : { id : membershipid}
-        }).catch(err => {console.log(err); return err })
+        }).catch( err => { console.log(err); return err })  
     }
 
     //change values in membership of id.
@@ -40,10 +31,17 @@ class MembershipService {
             minItems : newMembership.minItems,
             maxItems : newMembership.maxItems,
             discount : newMembership.discount
-        }, { where : { id : id }})
-        .catch(err => {console.log(err); return err })
+        }, { where : { id : id }
+        }).catch( err => { console.log(err); return err })
     }
-    
+
+    //no delete if in use, restrict.
+    async deleteMembership(Membershipid){
+        return await this.Membership.destroy({
+            where : { id : Membershipid }
+        }).catch( err => { console.log(err); return err })
+    }  
+
 }
 
 module.exports = MembershipService;
