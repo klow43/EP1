@@ -8,6 +8,14 @@ class UserService {
         this.User = db.User;
     }
 
+    //include userRole or Roleid
+    async getLogin(user) {
+        return await this.User.findOne({
+            include : 'UserRole' ,
+            where : {[Op.or] :[ { userName : user.name },  { email : user.name }]}
+        }).catch( err => { console.log(err); return err })
+    }
+
     async getUser(userid){
         return await this.User.findOne({
             where : {id : userid}

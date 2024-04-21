@@ -1,39 +1,63 @@
+const { validate } = require("graphql");
+
 module.exports = ( sequelize, Sequelize ) => {
     const User = sequelize.define('User', {
         firstName : {
             type : Sequelize.DataTypes.STRING(100),
-            notNull : { msg : "firstName cannot be empty" },
-            isAlpha : { msg : "firstName must consist of only letters." },
+            allowNull : false,
+            validate : {
+                notNull : { msg : "firstName cannot be empty" },
+                isAlpha : { msg : "firstName must consist of only letters." }
+            }
         },
         lastName : {
             type : Sequelize.DataTypes.STRING(100),
-            notNull : { msg : "lastName cannot be empty" },
-            isAlpha : { msg : "lastName must consist of only letters." },
+            allowNull : false,
+            validate : {
+                notNull : { msg : "lastName cannot be empty" },
+                isAlpha : { msg : "lastName must consist of only letters." },
+            }
+   
         },
         email : {
             type : Sequelize.DataTypes.STRING(100),
-            isEmail : { msg : "email must be in correct format. Example@email.com" },
-            notEmpty : { msg : "email is require" },
-            unique : { msg : "email already in use." },
+            allowNull : false, 
+            unique : { msg : "email already in use." },       
+            validate : {
+                isEmail : { msg : "email must be in correct format. Example@email.com" },
+                notNull : { msg : "email is required" },
+            }
         },
         password : {
             type : Sequelize.DataTypes.BLOB,
-            notNull : { msg : "Password cannot be null." }
+            allowNull : false,
+            validate : {
+              notNull : { msg : "Password cannot be null." },
+            },
         },
         phone : {
             type : Sequelize.DataTypes.INTEGER,
-            notNull : { msg : "Phone cannot be null." },
-            isNumeric : { msg : "Phone can only consist of numbers." }
+            allowNull : false,
+            validate : {
+                notNull : { msg : "Phone cannot be null." },
+                isNumeric : { msg : "Phone can only consist of numbers." }
+            }
         },
         userName : {
             type : Sequelize.DataTypes.STRING(100),
-            notNull :{ msg : "Username is required." },
-            unique : { msg : "Username already in use." }
-            },
+            allowNull : false,
+            unique : { msg : "Username already in use." },            
+            validate : {
+                notNull :{ msg : "Username is required." },
+            }
+        },
         address : {
             type : Sequelize.DataTypes.STRING(150),
-            allowNull : { msg : "Address cannot be null." }
-        }
+            allowNull : false,
+            validate : {
+                notNull : { msg : "Address cannot be null." }
+            }
+        },
         }, { timestamps : true,
             hooks : {
                 //create membership,role,cart on register
@@ -46,6 +70,7 @@ module.exports = ( sequelize, Sequelize ) => {
         },
     );
     User.associate = function(models) {
+        User.hasOne( models.UserRole )
         User.belongsToMany( models.Order, { through : models.UserOrder })
     }
     return User  
