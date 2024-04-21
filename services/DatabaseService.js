@@ -13,6 +13,7 @@ class DatabaseService {
     //count user table for checking if emtpy or not.
     async CountDataUser(){
         return await sequelize.query(`SELECT COUNT(*) as total FROM Users`, { raw : true, type : QueryTypes.SELECT })
+        .catch( err => { console.log(err); return err }) 
     }
 
     //raw query to insert json to db
@@ -50,6 +51,7 @@ class DatabaseService {
         return await productServices.createProduct(Product)
         .catch( err => { console.log(err); return err })    
     }
+
 }
-//{include : [{association : 'ProductBrand', include : ['Brand',{where : Product.brand == 'Brand.Brand', as : 'BrandId'}]} ]  })
+
 module.exports = DatabaseService;
