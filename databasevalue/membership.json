@@ -1,5 +1,5 @@
 {"data" : [
-    {"id" : 1, "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(1,'Bronze',0,15,0)"},
-    {"id" : 2, "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(2,'Silver',15,30,15)"},
-    {"id" : 3, "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(3,'Gold',30,100,30)"}   
+    { "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(1,'Bronze',0,15,0)"},
+    { "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(2,'Silver',15,30,15)"},
+    { "query" : "INSERT INTO memberships(id,Membership,minItems,maxItems,discount) VALUES(3,'Gold',30,100,30)"} 
 ]}
