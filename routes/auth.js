@@ -5,6 +5,8 @@ const UserService = require('../services/UserService');
 const userService = new UserService(db);
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 
 
 //req contains name field(username or email) and password field
@@ -15,7 +17,7 @@ router.post('/login', async function(req, res, next) {
     if(user.name == 0 || user.name == "" || user.password == 0 || user.password == "" ){
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "userName/email and password must be provided!"}})
     }
-    if(userdb !== null && await bcrypt.compare(user.password, userdb.password) == true){
+    if(userdb !== null && await bcrypt.compare(user.password, userdb.password.toString()) == true){
         try{
             token = jwt.sign({ User : userdb.email , UserRoleId : userdb.UserRole.dataValues.RoleId }, process.env.TOKEN_SECRET, { expiresIn : '2h' })
         }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Unable to login."}})}  
@@ -27,7 +29,7 @@ router.post('/login', async function(req, res, next) {
 
  
 
-router.post('/register', async function(req, res, next) { 
+router.post('/register',jsonParser, async function(req, res, next) { 
     const newUser = req.body; 
     try{ 
         bcrypt.hash(newUser.password, 12, async function (err, hash) { 

@@ -5,12 +5,16 @@ const basename = path.basename(__filename);
 const db = require("../models");
 const DatabaseService = require('../services/DatabaseService');
 const databaseService = new DatabaseService(db);
+const UserService = require('../services/UserService');
+const userService = new UserService(db);
+const ProductServices = require('../services/ProductServices');
+const productServices = new ProductServices(db);
 
 
 async function populateDatabase(){ 
-let dbEmpty = await databaseService.CountDataUser()
+let dbEmpty = await userService.getUsers();
 
-if(dbEmpty[0].total == 0){
+if(dbEmpty.length == 0){
 
     let apicall = await fetch('http://backend.restapi.co.za/items/products')  
     .then((response) => response.json())
@@ -47,13 +51,15 @@ return 208;
 async function InsertProducts(){
     let apicall = await populateDatabase()
     if(apicall != 208){
+        await fetch('http://localhost:3000/auth/register', { method : 'POST', headers: {'Content-Type': 'application/json'}, body : JSON.stringify({firstName : 'Admin', lastName : 'Support', email : 'admin@noroff.no', password :  'P@ssword', phone : 911, userName : 'Admin', address : 'Online'})})
         await apicall.forEach(async product => {
             let brand = await databaseService.getBrandid(product.brand)
             let category = await databaseService.getCategoryid(product.category)
             product.brandId = brand[0].id 
             product.categoryId = category[0].id  
-            await databaseService.ProductData(product) 
+            await productServices.createProduct(product) 
         }) 
+        await databaseService.setAdmin()        
         return 200        
         }
     return 208

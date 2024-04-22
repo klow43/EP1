@@ -1,6 +1,4 @@
 const db = require('../models');
-const ProductServices = require('./ProductServices');
-const productServices = new ProductServices(db);
 const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
 
@@ -10,16 +8,15 @@ class DatabaseService {
         this.Product = db.Product;
     }
 
-    //count user table for checking if emtpy or not.
-    async CountDataUser(){
-        return await sequelize.query(`SELECT COUNT(*) as total FROM Users`, { raw : true, type : QueryTypes.SELECT })
+    async setAdmin(){
+        return await sequelize.query(`UPDATE userroles SET RoleId = 1 WHERE UserId = 1`, { raw : true, type : QueryTypes.UPDATE })
         .catch( err => { console.log(err); return err }) 
     }
 
     //raw query to insert json to db
     async InitialData(query){
         return await sequelize.query(query, {raw : true})
-            .catch( err => { console.log(err); return err })     
+            .catch( err => { console.log(err); return err })    
     }
 
     //insert in api brand names
@@ -44,12 +41,6 @@ class DatabaseService {
     async getCategoryid(Categoryname){
         return await sequelize.query(`SELECT id FROM Categories WHERE Category = '${Categoryname}'`, { raw : true, type : QueryTypes.SELECT })
         .catch( err => { console.log(err); return err }) 
-    }
-
-    //create products from API, categoryId and brandId added.
-    async ProductData(Product){
-        return await productServices.createProduct(Product)
-        .catch( err => { console.log(err); return err })    
     }
 
 }

@@ -1,3 +1,0 @@
-{"data" : [
-    {"query" : "INSERT INTO userroles(UserId, RoleId) VALUES(1,1)"}
-]} 
