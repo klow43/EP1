@@ -30,7 +30,7 @@ if(dbEmpty[0].total == 0){
             //insert inital json data
             let files = fs.readdirSync(__dirname) 
             files.forEach(file => { 
-                if(file !== basename && file !== 'products.json') {
+                if(file !== basename ) {
                     const { data } = JSON.parse(fs.readFileSync(__dirname + '/' + file));
                     for( i = 0; i < data.length; i++ ){
                     databaseService.InitialData(data[i].query);  
