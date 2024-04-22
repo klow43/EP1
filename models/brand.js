@@ -3,7 +3,7 @@ module.exports = ( sequelize, Sequelize ) => {
         Brand : {
             type : Sequelize.DataTypes.STRING(100),
             allowNull : false,
-            unique : { msg : 'Brand already exists.'}
+            unique : true,
         },
     }, { timestamps : false },);
     Brand.associate = function(models) {

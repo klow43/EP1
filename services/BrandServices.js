@@ -4,9 +4,9 @@ class BrandService {
         this.Brand = db.Brand;
     }
 
-    async getBrand(brand){
+    async getBrand(brandid){
         return await this.Brand.findOne({
-            where : { Brand : brand }
+            where : { id : brandid }
      }).catch( err => { console.log(err); return err }) 
     }
 
@@ -21,10 +21,10 @@ class BrandService {
     }
 
     //only alter brand names of id.
-    async alterBrand(Brandid,newBrand){
+    async alterBrand(Brand){
         return await this.Brand.update({
-            Brand : newBrand
-        }, { where : { id : Brandid }
+            Brand : Brand.brand
+        }, { where : { id : Brand.id }
         }).catch( err => { console.log(err); return err })
     }
 
