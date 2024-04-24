@@ -1,49 +1,61 @@
 class ProductRelationService {
     constructor(db) {
         this.client = db.sequelize;
-        this.ProductBrand = db.ProductBrand;
-        this.ProductCategory = db.ProductCategory;
+        this.ProductBrands = db.ProductBrands;
+        this.ProductCategories = db.ProductCategories;
     }
 
-    async getProductBrand(productid, brandid){
-        return await this.ProductBrand.findOne({
-            where : {ProductId : productid, BrandId : brandid}
-        })
-        .catch( err => { console.log(err); return err })
-    }
-
-    async createProductBrand(BrandId, ProductId){
-        return await this.ProductBrand.create({
-            BrandId : BrandId,
-            ProductId : ProductId
+    async getProductBrand(Input){
+        return await this.ProductBrands.findOne({
+            where : {ProductId : Input.productid}
         }).catch( err => { console.log(err); return err })
     }
 
-    async deleteProductBrand(Productid, BrandId){
-        return await this.ProductBrand.destroy({
-            where : { ProductId : Productid, BrandId : BrandId }
+    async createProductBrand(Input){
+        return await this.ProductBrands.create({
+            BrandId : Input.brandid,
+            ProductId : Input.productid
+        }).catch( err => { console.log(err); return err })
+    }
+
+    async alterProductBrand(Input){
+        return await this.ProductBrands.update({
+            BrandId : Input.brandid
+        }, { where : { ProductId : Input.id}}
+        ).catch( err => { console.log(err); return err })
+    }
+
+    async deleteProductBrand(Input){
+        return await this.ProductBrands.destroy({
+            where : { ProductId : Input.productid }
         }).catch( err => { console.log(err); return err })
     }
 
     //Divider between CRUD for junction tables 
 
-    async getProductCategory(productid, categoryid){
-        return await this.ProductCategory.findOne({
-            where : {ProductId : productid, CategoryId : categoryid}
-        })
-        .catch( err => { console.log(err); return err })
-    }
-
-    async createProductCategory(ProductId, CategoryId){
-        return await this.ProductCategory.create({
-            CategoryId : CategoryId,
-            ProductId : ProductId
+    async getProductCategory(Input){
+        return await this.ProductCategories.findOne({
+            where : {ProductId : Input.productid, CategoriesId : Input.categoryid}
         }).catch( err => { console.log(err); return err })
     }
 
-    async deleteProductCategory(Productid, CategoryId){
-        return await this.ProductCategory.destroy({
-            where : { ProductId : Productid, CategoryId : CategoryId }
+    async createProductCategory(Input){
+        return await this.ProductCategories.create({
+            CategoryId : Input.categoryid,
+            ProductId : Input.productid
+        }).catch( err => { console.log(err); return err })
+    }
+
+    async alterProductCategory(Input){
+        return await this.ProductCategories.update({
+            CategoryId : Input.categoryid
+        }, { where : { ProductId : Input.id}}
+        ).catch( err => { console.log(err); return err })
+    }
+
+    async deleteProductCategory(Input){
+        return await this.ProductCategories.destroy({
+            where : { ProductId : Input.id }
         }).catch( err => { console.log(err); return err })
     }
 

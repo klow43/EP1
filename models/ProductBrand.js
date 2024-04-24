@@ -1,8 +1,8 @@
 module.exports = ( sequelize, Sequelize ) => {
-        const ProductBrand = sequelize.define('ProductBrand', {
+        const ProductBrands = sequelize.define('ProductBrands', {
             BrandId : Sequelize.DataTypes.INTEGER,
             ProductId :  Sequelize.DataTypes.INTEGER,
         }, { timestamps : false }, 
     );
-    return ProductBrand
+    return ProductBrands
 } 
