@@ -3,11 +3,11 @@ module.exports = ( sequelize, Sequelize ) => {
         Category : {
                 type : Sequelize.DataTypes.STRING(100),
                 allowNull : false,
-                unique : { msg : 'Category already exists.'}
+                unique : true
         },
     }, { timestamps : false },);
     Category.associate = function(models) {
-        Category.belongsToMany( models.Product, { through : models.ProductCategory, foreignKey : 'CategoryId', onDelete : 'RESTRICT' })
+        Category.belongsToMany( models.Product, { through : models.ProductCategories, onDelete : 'RESTRICT' })
     };
     return Category  
 };  
