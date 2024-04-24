@@ -10,6 +10,8 @@ const initRouter = require('./routes/init');
 const authRouter = require('./routes/auth');
 const categoriesRouter = require('./routes/categories');
 const brandRouter = require('./routes/brands');
+const productRouter = require('./routes/products');
+const searchRouter = require('./routes/search');
 
 var db = require("./models");
 db.sequelize.sync({ force : false });
@@ -31,6 +33,8 @@ app.use('/init', initRouter )
 app.use('/auth', authRouter);
 app.use('/categories', categoriesRouter);
 app.use('/brands', brandRouter);
+app.use('/products', productRouter);
+app.use('/search', searchRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
