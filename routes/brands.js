@@ -9,10 +9,10 @@ router.get('/', async function(req, res, next) {
     let brands; 
     try{
         brands = await brandService.getBrands();
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot retrieve brands."}})}
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve brands."}})}
 
     brands[0] == null ? 
-    res.status(500).json({ status : "error", statusCode : 500, data : { result : "No brands found.", products : brands } }) :
+    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brands found.", products : brands } }) :
       res.status(200).json({ status : "success", statusCode : 200, data : { result : "brands found.", products : brands }})
 })
 
@@ -21,19 +21,19 @@ router.get('/:brandid', async function(req, res, next){
     let brand;
     try{
         brand = await brandService.getBrand(brandid);
-    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot retrieve brand."}})};
+    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve brand."}})};
 
     brand == null ?
-        res.status(500).json({ status : "error", statusCode : 500, data : { result : "No brand found.", products : brand } }) :
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brand found.", products : brand } }) :
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand found.", products : brand }})
 });
 
 router.post('/', isAdmin, async function(req, res, next) {
     let result;
-    if(!req.body.brand || req.body.brand == "" || req.body.brand == null){res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand must be provided." }})}
+    if(!req.body?.brand || req.body?.brand == "" || req.body?.brand == null){res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand must be provided." }})}
     try{
        result = await brandService.createBrand(req.body.brand); 
-    }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Unable to create brand."}})}
+    }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Unable to create brand."}})}
     result.name == 'SequelizeUniqueConstraintError' ?
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand already exists."}}) :
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand created."}})       
@@ -44,8 +44,8 @@ router.put('/', isAdmin, async function(req, res, next) {
     if(!req.body?.id || req.body?.id == null || req.body?.id == "" || !req.body?.brand){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id and brand must be provided." }}); }     
     try{
         result = await brandService.alterBrand(req.body);
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot alter brand."}})}
-    result == 0 ? res.status(404).json({ status : "error", statusCode : 404, data : { result : "No brand of provided id."}}) :
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot alter brand."}})}
+    result == 0 ? res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brand of provided id."}}) :
         res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand altered."}})
 });
 
@@ -54,12 +54,11 @@ router.delete('/', isAdmin, async function(req, res, next) {
     let result;
     if(!req.body?.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided." }}) }
     try{
-        result = await brandService.deleteBrand(req.body.id); 
-        console.log(result)       
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Unable to delete brand" }})}
+        result = await brandService.deleteBrand(req.body.id);       
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Unable to delete brand" }})}
     result.name == 'SequelizeForeignKeyConstraintError' ?
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand belongs to a product and cannot be deleted."}}) :
-            result == 0 ? res.status(404).json({ status : "error", statusCode : 404, data : { result : "No brand of provided id."}}) :
+            result == 0 ? res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brand of provided id."}}) :
                 res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand deleted."}})
 });  
   
