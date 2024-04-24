@@ -14,7 +14,7 @@ router.post('/login', async function(req, res, next) {
     let user = req.body;
     let userdb = await userService.getLogin(user)
     let token;
-    if(user.name == 0 || user.name == "" || user.password == 0 || user.password == "" ){
+    if(!user.name || user?.name == 0 || user?.name == "" || user?.password == 0 || user?.password == ""  || !user?.password){
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "userName/email and password must be provided!"}})
     }
     if(userdb !== null && await bcrypt.compare(user.password, userdb.password.toString()) == true){
@@ -30,7 +30,7 @@ router.post('/login', async function(req, res, next) {
  
 
 router.post('/register',jsonParser, async function(req, res, next) { 
-    const newUser = req.body; 
+    const newUser = req.body;
     try{ 
         bcrypt.hash(newUser.password, 12, async function (err, hash) { 
             newUser.password = hash;
