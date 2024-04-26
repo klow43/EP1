@@ -1,17 +1,14 @@
-const { sequelize } = require('../models');
 const { QueryTypes } = require('sequelize');
 
 class SearchService {
     constructor(db) {
-        this.Brand = db.Brand;
-        this.Category = db.Category;
-        this.Product = db.Product;
+        this.client = db.sequelize;
     }
 
     //specific brand name, return all products, number of result
     async searchBrand(search){
-        return await sequelize.query(
-        `select name, quantity, imgurl, description, brands.Brand, categories.Category  from products
+        return await this.client.query(
+        `select products.id, name, quantity, imgurl, description, brands.Brand, productbrands.BrandId, categories.Category, productcategories.CategoryId  from products
         inner join productcategories
         on products.id = productcategories.ProductId
         join categories
@@ -27,8 +24,8 @@ class SearchService {
 
     //search specific categoryname, return all products with this category, number of results
     async searchCategory(search){
-        return await sequelize.query(
-        `select products.id, name, quantity, imgurl, description, categories.Category, brands.Brand from products
+        return await this.client.query(
+        `select products.id, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
         inner join productbrands
         on products.id = productbrands.ProductId
         join brands
@@ -44,8 +41,8 @@ class SearchService {
 
     //partial product name and number of results
     async searchProduct(search){
-        return await sequelize.query(
-            `SELECT products.id, name, quantity, imgurl, description, categories.Category, brands.Brand from products
+        return await this.client.query(
+            `SELECT products.id, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
             inner join productbrands
             on products.id = productbrands.ProductId
             join brands
