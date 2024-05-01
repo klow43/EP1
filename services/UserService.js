@@ -1,14 +1,12 @@
 const { Op } = require("sequelize");
 
 class UserService {
-    // @DeletedAt
-    // deletedAt;
     constructor(db) {
         this.client = db.sequelize;
         this.User = db.User;
     }
 
-    //include userRole or Roleid
+    //include userRole/Roleid
     async getLogin(user) {
         return await this.User.findOne({
             include : 'UserRole' ,
@@ -23,9 +21,8 @@ class UserService {
     }
 
     async getUsers(){
-        return await this.User.findAll({ 
-            where : {}
-        }).catch( err => { console.log(err); return err })
+        return await this.User.findAll({})
+        .catch( err => { console.log(err); return err })
     }
 
     //create User, create cart, memebership,role on create.
@@ -41,17 +38,16 @@ class UserService {
         }).catch( err => { console.log(err); return err })
     }
 
-    async updateUser(Userid, User){
+    async updateUser(User){
         return await this.User.update({
              firstName : User.firstName,
              lastName : User.lastName,
              email : User.email,
-             password : User.password,
              phone : User.phone,
              adress : User.adress,
              userName : User.userName
         },{
-        where : { id : Userid }
+        where : { id : User.id }
             }).catch( err => { console.log(err); return err })
     }
 

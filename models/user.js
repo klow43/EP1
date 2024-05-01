@@ -1,5 +1,3 @@
-const { validate } = require("graphql");
-
 module.exports = ( sequelize, Sequelize ) => {
     const User = sequelize.define('User', {
         firstName : {
@@ -72,6 +70,7 @@ module.exports = ( sequelize, Sequelize ) => {
     User.associate = function(models) {
         User.hasOne( models.UserRole )
         User.belongsToMany( models.Order, { through : models.UserOrder })
+        User.belongsToMany( models.Membership, { through : models.UserMembership })
     }
     return User  
 }; 
