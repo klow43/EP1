@@ -18,9 +18,15 @@ module.exports = {
   !req.headers.authorization?.split(' ')[1] ?   
     res.status(401).json({ status : "error", statusCode : 401, data : { result : "Unauthorized." }}) :
       jwt.verify(req.headers.authorization.split(' ')[1], process.env.TOKEN_SECRET, ( err,valid ) => {
+        valid.UserRoleId == 1 ? next() : res.status(401).json({ status : "error", statusCode : 401, data : { result : "Unauthorized" } })
         if(err){res.status(401).json({ status : "error", statusCode : 401, data : { result : err.message } }) }
-          if( valid.UserRoleId == 1 ){ next(); }
-          else{ res.status(401).json({ status : "error", statusCode : 401, data : { result : "Unauthorized."} }) }
       })
+    },
+
+    UserId : (req) => {
+      let id;
+      jwt.verify( req.headers.authorization.split(' ')[1], process.env.TOKEN_SECRET, ( err,valid ) => 
+      { id = valid.UserId })
+      return id
     }
-};
+}
