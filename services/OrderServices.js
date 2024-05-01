@@ -3,23 +3,25 @@ class OrderService {
         this.client = db.sequelize;
         this.Order = db.Order;
         this.orderprogress = db.orderprogress;
+        this.User = db.User;
     }
 
     async getOrder(orderid){
         return await this.Order.findOne({
-            where : { id : orderid}       
+            where : { id : orderid},
+            include : [{ model : this.User, through : { attributes : []} }]           
         }).catch( err => { console.log(err); return err })
     }
-    //get view of all orders
+    //get view of all orders(admin)
     async getAllOrders(){
         return await this.Order.findAll()
-        .catch(err => {console.log(err); return err }) 
+        .catch( err => { console.log(err); return err }) 
     }
 
     //user get own orders
     async getOrders(userId){
         return await this.Order.findAll({
-            where : {userId : userId}
+        include : [{ model : this.User, through : { where : { UserId : userId }, attributes : []} }]
         }).catch( err => { console.log(err); return err })
     }    
 
@@ -34,10 +36,10 @@ class OrderService {
     }
 
     //change order status
-    async alterOrder(Orderid, newStatusid){
+    async alterOrder(Input){
         return await this.orderprogress.update({
-            OrderStatusId : newStatusid
-        }, { where : { id : Orderid }
+            OrderStatusId : Input.Statusid
+        }, { where : { id : Input.Orderid }
         }).catch( err => { console.log(err); return err }) 
     }
 

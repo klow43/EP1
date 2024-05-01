@@ -4,15 +4,18 @@ module.exports = ( sequelize, Sequelize ) => {
             type : Sequelize.DataTypes.STRING,
             primaryKey : true,
         },
-        membershiptatus : Sequelize.DataTypes.STRING(100),
+        membershipstatus : Sequelize.DataTypes.STRING(100),
         product : Sequelize.DataTypes.STRING(100),
         quantity : Sequelize.DataTypes.INTEGER
         }, { timestamps : true,
         hooks : async (order, cb) => {
-                await sequelize.models.orderprogress.create({OrderId : order.id});
-                await sequelize.models.userorders.create({UserId : order.userId, OrderId : id})
+                await sequelize.models.orderprogress.create({OrderId : Order.id});
+                await sequelize.models.userorders.create({UserId : Order.userId, OrderId : id})
             }
         }, 
     );
+    Order.associate = function(models) {
+        Order.belongsToMany( models.User, { through : models.UserOrder })
+    }
     return Order 
 }  
