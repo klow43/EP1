@@ -7,6 +7,10 @@ module.exports = ( sequelize, Sequelize ) => {
             }
         }, { timestamps : false },
     );
+    UserMembership.associate = function(models) {
+        UserMembership.belongsTo( models.Membership )
+        UserMembership.belongsTo( models.User)
+    }
     return UserMembership;
 };
 

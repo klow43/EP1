@@ -7,6 +7,10 @@ module.exports = ( sequelize, Sequelize ) => {
             },     
         }, { timestamps : false }, 
     );
+    UserRole.associate = function(models) {
+        UserRole.belongsTo( models.User )
+        UserRole.belongsTo( models.Role )
+    }
         return UserRole
  }
 

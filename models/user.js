@@ -60,17 +60,17 @@ module.exports = ( sequelize, Sequelize ) => {
             hooks : {
                 //create membership,role,cart on register
                 afterCreate : async (User, options) => {
-                   await sequelize.models.UserMembership.create({ UserId : User.id});
-                   await sequelize.models.UserRole.create({ UserId : User.id});
-                   await sequelize.models.Cart.create({UserId : User.id});
+                   await sequelize.models.UserMembership.create({ UserId : User.id });
+                   await sequelize.models.UserRole.create({ UserId : User.id });
+                   await sequelize.models.Cart.create({ UserId : User.id });
                 }
             }
         },
     );
     User.associate = function(models) {
         User.hasOne( models.UserRole )
-        User.belongsToMany( models.Order, { through : models.UserOrder })
-        User.belongsToMany( models.Membership, { through : models.UserMembership })
+        User.hasMany( models.UserOrders )
+        User.hasOne( models.UserMembership )
     }
     return User  
-}; 
+};

@@ -1,8 +1,10 @@
 module.exports = ( sequelize, Sequelize ) => {
-    const UserOrder = sequelize.define('UserOrder', {
-        UserId : Sequelize.DataTypes.INTEGER,
-        OrderId :  Sequelize.DataTypes.STRING,
+    const UserOrders = sequelize.define('UserOrders', {
     }, { timestamps : false }, 
 );
-    return UserOrder
+    UserOrders.associate = function(models) {
+        UserOrders.belongsTo( models.Order )
+        UserOrders.belongsTo( models.User )
+    }
+    return UserOrders 
 } 

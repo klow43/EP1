@@ -10,13 +10,13 @@ class UserService {
     async getLogin(user) {
         return await this.User.findOne({
             include : 'UserRole' ,
-            where : {[Op.or] :[ { userName : user.name },  { email : user.name }]}
+            where : { [Op.or] :[ { userName : user.name },  { email : user.name } ]}
         }).catch( err => { console.log(err); return err })
     }
 
     async getUser(userid){
         return await this.User.findOne({
-            where : {id : userid}
+            where : { id : userid }
         }).catch( err => { console.log(err); return err })
     }
 
@@ -25,7 +25,7 @@ class UserService {
         .catch( err => { console.log(err); return err })
     }
 
-    //create User, create cart, memebership,role on create.
+    //create User, create cart/membership/role on create.
     async createUser(User){
         return await this.User.create({
             firstName : User.firstName,
