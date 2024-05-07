@@ -21,7 +21,7 @@ class ProductRelationService {
     async alterProductBrand(Input){
         return await this.ProductBrands.update({
             BrandId : Input.brandid
-        }, { where : { ProductId : Input.id}}
+        }, { where : { ProductId : Input.id }}
         ).catch( err => { console.log(err); return err })
     }
 
@@ -35,7 +35,7 @@ class ProductRelationService {
 
     async getProductCategory(Input){
         return await this.ProductCategories.findOne({
-            where : {ProductId : Input.productid, CategoriesId : Input.categoryid}
+            where : { ProductId : Input.productid, CategoriesId : Input.categoryid }
         }).catch( err => { console.log(err); return err })
     }
 
@@ -49,7 +49,7 @@ class ProductRelationService {
     async alterProductCategory(Input){
         return await this.ProductCategories.update({
             CategoryId : Input.categoryid
-        }, { where : { ProductId : Input.id}}
+        }, { where : { ProductId : Input.id }}
         ).catch( err => { console.log(err); return err })
     }
 

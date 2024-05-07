@@ -4,5 +4,9 @@ module.exports = ( sequelize, Sequelize ) => {
             ProductId :  Sequelize.DataTypes.INTEGER,
         }, { timestamps : false }, 
     );
+    ProductBrands.associate = function(models) {
+        ProductBrands.belongsTo( models.Brand )
+        ProductBrands.belongsTo( models.Product )
+    }
     return ProductBrands
 } 

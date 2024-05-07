@@ -7,7 +7,7 @@ module.exports = ( sequelize, Sequelize ) => {
         },
     }, { timestamps : false },);
     Category.associate = function(models) {
-        Category.belongsToMany( models.Product, { through : models.ProductCategories, onDelete : 'RESTRICT' })
+        Category.hasMany( models.ProductCategories, { onDelete : 'RESTRICT' })
     };
     return Category  
 };  

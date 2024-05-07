@@ -24,24 +24,22 @@ module.exports = ( sequelize, Sequelize ) => {
             },
             deletedAt : {
                 type : Sequelize.DataTypes.BOOLEAN,
-                defaultValue : null,
+                defaultValue : 0,
             }
         }, { timestamps : true,
             hooks : {
-                afterCreate: async (product, options) => {
-                        //if updating quantity of products, result in 0, soft delete(paranoid)
-                        Product.destroy({where : { quantity : 0, deletedAt : false }});
-                }, 
+                afterUpdate : (product, options) => {
+                        //if updating quantity of products, result in 0,
+                        if( product.quantity == 0 ){ product.deletedAt = 1 }      
+                }
             }
         },
     );
     Product.associate = function(models) {
-        Product.belongsToMany( models.Brand , { through : models.ProductBrands })
-        Product.belongsToMany( models.Category, { through : models.ProductCategories })
-        Product.belongsToMany( models.Cart, { as : 'Product', through : models.CartProduct, foreignKey : 'ProductId' }) 
+        Product.hasOne( models.ProductBrands )
+        Product.hasOne( models.ProductCategories )
+        Product.belongsToMany( models.Cart, { through : models.CartProduct }) 
     } 
     return Product 
-}         
-    
- 
+}  
   
