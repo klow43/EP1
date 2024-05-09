@@ -4,12 +4,13 @@ class OrderService {
         this.Order = db.Order;
         this.orderprogress = db.orderprogress;
         this.User = db.User;
+        this.UserOrders = db.UserOrders;
     }
 
     async getOrder(orderid){
-        return await this.Order.findOne({
-            where : { id : orderid},
-            include : [{ model : this.User, through : { attributes : []} }]           
+        return await this.Order.findAll({
+            where : { OrderId : orderid },
+            include : [{ model : this.Order }]     
         }).catch( err => { console.log(err); return err })
     }
     //get view of all orders(admin)
@@ -21,18 +22,25 @@ class OrderService {
     //user get own orders
     async getOrders(userId){
         return await this.Order.findAll({
-        include : [{ model : this.User, through : { where : { UserId : userId }, attributes : []} }]
+            where : { UserId : userId },
+            include : [{ model : this.Order }]
         }).catch( err => { console.log(err); return err })
     }    
 
+
+    async getQuantityOrders(userId){
+        return await this.UserOrders.findAll({
+            where : { UserId : userId},
+            include : [{ model : this.Order, attributes : ['Quantity']}]
+       }).catch( err => { console.log(err); return err })
+    }  
+
     //create order, create orderprogress/orderStatus relation(default 1 - "In Progress"), create userorders relation.
     async createOrder(Order){
-        return await this.Order.create({
-            id : Order.id,
-            membershipstatus : Order.membershipstatus,
-            quantity : Order.quantity,
-            product : Order.product
-        }).catch( err => { console.log(err); return err })
+        return await this.Order.bulkCreate(
+            Order,
+            { individualHooks : true, fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice'] },
+        ).catch( err => { console.log(err); return err })
     }
 
     //change order status

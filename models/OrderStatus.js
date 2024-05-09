@@ -4,7 +4,7 @@ module.exports = ( sequelize, Sequelize ) => {
     }, { timestamps : false },
     )
     OrderStatus.associate = function(models) {
-        OrderStatus.belongsToMany( models.Order, { through : 'OrderProgress' })
-    };
+        OrderStatus.hasMany( models.OrderProgress, { onDelete : 'RESTRICT'} )
+    }
     return OrderStatus  
-};
+}; 

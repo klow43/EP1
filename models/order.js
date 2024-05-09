@@ -1,21 +1,35 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Order = sequelize.define('Order', {
-        id : {
-            type : Sequelize.DataTypes.STRING,
+        Id : {
+            type : Sequelize.DataTypes.INTEGER,
             primaryKey : true,
+            unique : true,
+            autoIncrement : true,
         },
+        OrderId : Sequelize.DataTypes.STRING(100),
         membershipstatus : Sequelize.DataTypes.STRING(100),
         product : Sequelize.DataTypes.STRING(100),
-        quantity : Sequelize.DataTypes.INTEGER
+        Quantity : Sequelize.DataTypes.INTEGER,
+        discountUnitPrice : Sequelize.DataTypes.DOUBLE(10,2)
         }, { timestamps : true,
-        hooks : async (order, cb) => {
-                await sequelize.models.orderprogress.create({OrderId : Order.id});
-                await sequelize.models.userorders.create({UserId : Order.userId, OrderId : id})
+        hooks : {
+            //check quantity of stock
+            beforeCreate : async (Order, err) => {
+                    value = await sequelize.models.Product.findOne({ where : { name : Order.product } })
+                    if ( value.quantity < Order.Quantity ) { throw new Error('Quantity over stock.') }
+            },
+            //create orderprogress/subtract quantity ordered.
+            afterCreate : async (Order, options) => {
+                await sequelize.models.OrderProgress.create({ OrderId : Order.Id });
+                await sequelize.models.Product.decrement({ quantity : Order.Quantity },{ where : { name : Order.product} }) 
+                await sequelize.models.Product.update({ deletedAt : 1 },{ where : { quantity : 0 } })     
+                }
             }
         }, 
-    );
+    ); 
     Order.associate = function(models) {
-        Order.belongsToMany( models.User, { through : models.UserOrder })
+        Order.hasOne( models.OrderProgress )
+        Order.hasMany( models.UserOrders )
     }
     return Order 
-}  
+} 
