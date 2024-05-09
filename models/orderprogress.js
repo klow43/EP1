@@ -3,7 +3,8 @@ module.exports = ( sequelize, Sequelize ) => {
         OrderStatusId :  { 
             type : Sequelize.DataTypes.INTEGER,
             defaultValue : 1,
-            }
+            },
+            OrderId : Sequelize.DataTypes.INTEGER
         }, { timestamps : false }, 
     );
     OrderProgress.associate = function(models) {

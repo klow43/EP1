@@ -39,7 +39,16 @@ class OrderService {
     async createOrder(Order){
         return await this.Order.bulkCreate(
             Order,
-            { individualHooks : true, fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice'] },
+            { individualHooks : true, 
+                fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice', 'userid']
+            },
+        ).catch( err => { console.log(err); return err })
+    }
+
+    async createUserOrder(Order){
+        return await this.UserOrders.bulkCreate(
+            Order,
+            { fields : ['OrderId', 'UserId'] }
         ).catch( err => { console.log(err); return err })
     }
 
