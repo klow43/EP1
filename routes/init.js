@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
+const db = require("../models");
 const InsertProducts = require('../databasevalue/database'); 
+const DatabaseService = require('../services/DatabaseService');
+const databaseService = new DatabaseService(db);
 
 
 //checks db, if users table empty will populate.
@@ -9,9 +12,12 @@ let result;
    try{
      result = await InsertProducts();  
       if(result == 208){res.status(208).json({status : 'success', statusCode : 208, data : { result : 'Database already populated.'}})}   
-   }catch(err){console.log(err); res.status(500).json({status : 'error', statusCode : 500, data : { result : "Unable to populate databsae with inital data."}})}
- if(result == 200) res.status(200).json({ status : 'success', statusCode : 200, data : { result : 'Database populated with inital data.' }})
-});
+   }catch(err){console.log(err); res.status(500).json({status : 'error', statusCode : 500, data : { result : "Server error.Unable to populate database with inital data."}})}
+ if(result == 200){
+    await databaseService.setAdmin();  
+      res.json({ status : 'success', statusCode : 200, data : { result : 'Database populated with inital data.' }})  
+ }
+}); 
 
   
 module.exports = router;  
