@@ -23,7 +23,7 @@ module.exports = ( sequelize, Sequelize ) => {
     }, { timestamps : false }, 
 );
  Membership.associate = function(models) {
-     Membership.belongsToMany( models.User, { through : models.UserMembership, foreignKey : 'MembershipId',  onDelete : 'RESTRICT'})
+     Membership.hasMany( models.UserMembership, {  onDelete : 'RESTRICT', hooks : true })
     };
     return Membership
 } 
