@@ -12,7 +12,7 @@ module.exports = ( sequelize, Sequelize ) => {
         }, { timestamps : false }, 
     );
         Role.associate = function(models) {
-            Role.belongsToMany( models.User, { through : models.UserRole, foreignKey : 'RoleId', onDelete : ' RESTRICT' })
+            Role.hasMany( models.UserRole, { onDelete : ' RESTRICT' })
         };
         return Role
  } 
