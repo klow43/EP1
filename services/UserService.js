@@ -16,13 +16,15 @@ class UserService {
 
     async getUser(userid){
         return await this.User.findOne({
-            where : { id : userid }
+            where : { id : userid },
+            attributes : ['id', 'firstName', 'lastName', 'email', 'phone', 'userName', 'address', 'createdAt', 'updatedAt']
         }).catch( err => { console.log(err); return err })
     }
 
     async getUsers(){
-        return await this.User.findAll({})
-        .catch( err => { console.log(err); return err })
+        return await this.User.findAll({
+            attributes : ['id', 'firstName', 'lastName', 'email', 'phone', 'userName', 'address', 'createdAt', 'updatedAt']},
+        ).catch( err => { console.log(err); return err })
     }
 
     //create User, create cart/membership/role on create.
@@ -42,7 +44,6 @@ class UserService {
         return await this.User.update({
              firstName : User.firstName,
              lastName : User.lastName,
-             email : User.email,
              phone : User.phone,
              adress : User.adress,
              userName : User.userName
@@ -55,7 +56,7 @@ class UserService {
     //delete user(admin), no soft delete (GDPR), cannot delete admin
     async deleteUser(UserId){
         return await this.User.destroy({
-            where : { Id : UserId, userName : { [Op.not] : Admin }}
+            where : { Id : UserId, Id : { [Op.not] : 1 }}
         }).catch(err => { console.log(err); return err })
     }
 

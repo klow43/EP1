@@ -44,9 +44,9 @@ module.exports = ( sequelize, Sequelize ) => {
         userName : {
             type : Sequelize.DataTypes.STRING(100),
             allowNull : false,
-            unique : { msg : "Username already in use." },            
+            unique : { msg : "userName already in use." },            
             validate : {
-                notNull :{ msg : "Username is required." },
+                notNull :{ msg : "userName is required." },
             }
         },
         address : {
