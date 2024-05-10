@@ -40,7 +40,6 @@ class MembershipService {
 
     async createMembership(Membership){
         return await this.Membership.create({
-            id : Membership.id,
             Membership : Membership.name,
             minItems : Membership.minItems,
             maxItems : Membership.maxItems,
@@ -49,13 +48,13 @@ class MembershipService {
     }
 
     //change values in membership of id.
-    async alterMembership(id, newMembership) {
+    async alterMembership(newMembership) {
         return await this.Membership.update({
             Membership : newMembership.Membership,
             minItems : newMembership.minItems,
             maxItems : newMembership.maxItems,
             discount : newMembership.discount
-            }, { where : { id : id } }
+            }, { where : { id : newMembership.id } }
         ).catch( err => { console.log(err); return err })
     }
 
@@ -66,6 +65,6 @@ class MembershipService {
         }).catch( err => { console.log(err); return err })
     }  
 
-}
+} 
 
 module.exports = MembershipService;
