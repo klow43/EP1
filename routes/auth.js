@@ -15,13 +15,13 @@ router.post('/login', async function(req, res, next) {
     let userdb = await userService.getLogin(user)
     let token;
     if(!user.name || user?.name == 0 || user?.name == "" || user?.password == 0 || user?.password == ""  || !user?.password){
-        res.status(400).json({ status : "error", statusCode : 400, data : { result : "userName/email and password must be provided!"}})
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "userName/email must be provided as name, and password must be provided!"}}); return;
     }
     if(userdb !== null && await bcrypt.compare(user.password, userdb.password.toString()) == true){
         try{
             token = jwt.sign({ User : userdb.email , UserRoleId : userdb.UserRole.dataValues.RoleId, UserId : userdb.id }, process.env.TOKEN_SECRET, { expiresIn : '2h' })
-        }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Unable to login."}})}  
-    res.status(200).json({ status : "success", statusCode : 200, data : { result : "You are logged in",id : userdb.id, email : userdb.email, userName : userdb.userName, token : token}})     
+        }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Unable to login."}}); return;}  
+    res.status(200).json({ status : "success", statusCode : 200, data : { result : "You are logged in",id : userdb.id, email : userdb.email, userName : userdb.userName, token : token}}); return;     
     }
     else{res.status(400).json({ status : "error", statusCode : 400, data : { result : "Invalid input."}})}
 });

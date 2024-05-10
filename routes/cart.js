@@ -16,7 +16,7 @@ router.get('/', isUser, async function (req, res, next){
     let cart;
     try{
         cart = await cartServices.getCart(userid) 
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve cart"}})}
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve cart"}}); return;}
     res.status(200).json({ status : "success", statusCode : 200, data : { result : "Products found", Products : cart[0]?.Products }});
 });
 
@@ -28,16 +28,16 @@ router.post('/', isUser, async function (req,res, next){
     try{ 
         cartid = await cartServices.getCartId(userid) 
             let [ result, created ] =  await cartServices.postCart(cartid,product) 
-           created == false ? data = await cartServices.incrementCart(product,cartid) : data = 1
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot add to cart, please check availability on product."}})}
-    if(data == 1 || data?.[0][1] == 1  ){res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product added to cart."}})}
-}); 
+           created == false ? data = await cartServices.incrementCart(product,cartid) : next()
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot add to cart, please check availability on product."}}); return;}
+    res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product added to cart."}})
+});
 
 router.post('/checkout/now', isUser, async function (req, res, next){
     let orderid = randomstring.generate({ length : 8 })
     let userid = UserId(req)
-    let cart, membership,order;
-    let quantity = 0;
+    let cart, membership,order,finish;
+    let quantity = 0; 
     try{
     //get cart of user, Products, discount,cartid, membership
         cart = await cartServices.getCart( userid);
@@ -57,8 +57,8 @@ router.post('/checkout/now', isUser, async function (req, res, next){
 
     //create order
         order = await orderServices.createOrder( cartupdate )
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}})}     
-   try{
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
+    try{
     //remove cartitems from cart(softdelete, Processed = 1)
     await cartServices.checkoutCart( cart[0].id )
 
@@ -74,10 +74,9 @@ router.post('/checkout/now', isUser, async function (req, res, next){
     });
 
     //create userorder
-    await orderServices.createUserOrder( userorder )
-   }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}})}     
-   
-    res.status(200).json({ result : 'userorder' })
+    finish = await orderServices.createUserOrder( userorder )
+   }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
+    res.status(200).json({ status : "success", statusCode : 200, data : { result : `Order has been created!`} })
 });
  
 //req body = productid,quantity
@@ -87,7 +86,7 @@ router.put('/', isUser,  async function (req,res, next){
     try{
         cartid = await cartServices.getCartId(userid)
         await cartServices.updateCart(product,cartid.id)
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot update cart"}})}
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot update cart"}}); return;}
     res.status(200).json({ status : "success", statusCode : 200, data : { result : "product upated."}})
 });
 
@@ -98,7 +97,7 @@ router.delete('/', isUser, async function (req, res, next){
     try{
         cartid = await cartServices.getCartId(userid)
         result = await cartServices.deleteFromCart(productid,cartid.id)
-    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot delete from cart"}})}
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot delete from cart"}}); return;}
     res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product removed from cart."}})
 });
 
