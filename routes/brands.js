@@ -10,7 +10,6 @@ router.get('/', async function(req, res, next) {
     try{
         brands = await brandService.getBrands();
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve brands."}}); return;}
-
     brands[0] == null ? 
     res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brands found.", products : brands } }) :
       res.status(200).json({ status : "success", statusCode : 200, data : { result : "brands found.", products : brands }})

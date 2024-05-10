@@ -20,7 +20,7 @@ class CartService {
         return await this.Cart.findAll({ 
             where : { UserId : userId },
             include : [{ 
-                model : this.Product,attributes : ['id', 'name', 'description', 'imgurl'], 
+                model : this.Product, attributes : ['id', 'name', 'description', 'imgurl'], 
                     through : { attributes : [ 'quantity' ,'unitPrice', 'discountUnitPrice'], where : { 'Processed' : 0 }}
                 }]
         }).catch( err => { console.log(err); return err })

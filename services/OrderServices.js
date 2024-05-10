@@ -2,21 +2,18 @@ class OrderService {
     constructor(db) {
         this.client = db.sequelize;
         this.Order = db.Order;
-        this.orderprogress = db.orderprogress;
+        this.OrderProgress = db.OrderProgress;
         this.User = db.User;
         this.UserOrders = db.UserOrders;
+        this.OrderStatus = db.OrderStatus;
     }
 
-    async getOrder(orderid){
-        return await this.Order.findAll({
-            where : { OrderId : orderid },
-            include : [{ model : this.Order }]     
-        }).catch( err => { console.log(err); return err })
-    }
+
     //get view of all orders(admin)
     async getAllOrders(){
-        return await this.Order.findAll()
-        .catch( err => { console.log(err); return err }) 
+        return await this.Order.findAll(
+           { include : [{ model : this.OrderProgress, attributes : ['OrderStatusId'], include : this.OrderStatus }] }  
+        ).catch( err => { console.log(err); return err }) 
     }
 
     //user get own orders
@@ -25,15 +22,7 @@ class OrderService {
             where : { UserId : userId },
             include : [{ model : this.Order }]
         }).catch( err => { console.log(err); return err })
-    }    
-
-
-    async getQuantityOrders(userId){
-        return await this.UserOrders.findAll({
-            where : { UserId : userId},
-            include : [{ model : this.Order, attributes : ['Quantity']}]
-       }).catch( err => { console.log(err); return err })
-    }  
+    }     
 
     //create order, create orderprogress/orderStatus relation(default 1 - "In Progress"), create userorders relation.
     async createOrder(Order){
@@ -42,7 +31,7 @@ class OrderService {
             { individualHooks : true, 
                 fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice', 'userid']
             },
-        ).catch( err => { console.log(err); return err })
+        ).catch( err => { console.log(err); throw err })
     }
 
     async createUserOrder(Order){
@@ -54,7 +43,7 @@ class OrderService {
 
     //change order status
     async alterOrder(Input){
-        return await this.orderprogress.update({
+        return await this.OrderProgress.update({
             OrderStatusId : Input.Statusid
         }, { where : { id : Input.Orderid }
         }).catch( err => { console.log(err); return err }) 
@@ -63,7 +52,7 @@ class OrderService {
     //Delete order
     async deleteOrder(Orderid){
         return await this.Order.destroy({
-            where : { id : Orderid }
+            where : { OrderId : Orderid }
         }).catch( err => { console.log(err); return err })
     }
 

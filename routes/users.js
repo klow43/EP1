@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { isAdmin, isUser, UserId } = require('../services/middleware');
+const { isAdmin } = require('../services/middleware');
 const db = require('../models');
 const UserServices = require('../services/UserService');
 const userServices = new UserServices(db);

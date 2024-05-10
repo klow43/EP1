@@ -20,7 +20,7 @@ router.get('/:membershipid', async function ( req, res, next ) {
         membership = await membershipService.getMembership(membershipid);
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot retrieve membership"}}); return;}
     membership == null ? 
-    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No memebership found.", products : membership } }) :
+    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No membership found.", products : membership } }) :
         res.status(200).json({ status : "success", statusCode : 200, data : { result : "Membership found.", products : membership }})
 })
 
