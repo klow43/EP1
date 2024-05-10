@@ -25,7 +25,7 @@ class BrandService {
         return await this.Brand.update({
             Brand : Brand.brand
         }, { where : { id : Brand.id }
-        }).catch( err => { console.log(err); return err })
+        }).catch( err => { console.log(err); throw err })
     }
 
      //no delete if in use, restrict.

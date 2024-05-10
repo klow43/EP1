@@ -11,7 +11,7 @@ router.get('/',async function(req, res, next) {
     let products;
     try{
         products = await productServices.getProducts();
-    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved products."}})}
+    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved products."}}); return;}
     products[0] == null ? 
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "No products found.", products : products } }) :
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "products found.", products : products }})  
@@ -21,25 +21,25 @@ router.get('/:productid', async function(req, res, next) {
 let id = req.params.productid;
 try{
     product = await productServices.getProduct(id);
-}catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved product."}})}
+}catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved product."}}); return;}
 product[0] == null ? 
-    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No product found.", products : products } }) :
-        res.status(200).json({ status : "success", statusCode : 200, data : { result : "product found.", products : products }}) 
+    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No product found.", products : product } }) :
+        res.status(200).json({ status : "success", statusCode : 200, data : { result : "product found.", products : product }}) 
 })
 
- //product includes brandid and categoryid from frontend
+ //product includes brandid and categoryid from frontend(dropdown)
 router.post('/', isAdmin, async function(req, res, next) {
     let product = req.body;
     try {
         result = await productServices.createProduct(product);  
-    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot post product."}})}
+    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot post product."}}); return;}
     if(result?.name == 'SequelizeValidationError') 
       {  res.status(400).json({ status : "error", statusCode : 400, data : { result : result?.message } }) }
     else{
         try{
             await productRelationServices.createProductBrand({productid : result.id, brandid : product.brandid})
             await productRelationServices.createProductCategory({productid : result.id, categoryid : product.categoryid})           
-        }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot post product."}})}
+        }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot post product."}}); return;}
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "product created." }}) 
     }
 })
@@ -47,20 +47,24 @@ router.post('/', isAdmin, async function(req, res, next) {
 // product includes brandid and categoryid from frontend
 router.put('/', isAdmin, async function(req, res, next) {
         let product = req.body;
+        let result;
     try{
-        await productServices.alterProduct(product)
+        result = await productServices.alterProduct(product)
         await productRelationServices.alterProductBrand(product);
         await productRelationServices.alterProductCategory(product);
-    }catch( err )  { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update product." }})}
-            res.status(200).json({ status : "success", statusCode : 200, data : { result : "product altered." }}) 
+    }catch( err )  { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update product." }}); return;}
+    result == 0 ? res.status(400).json({ status : "success", statusCode : 400, data : { result : "No product of id." }}) :
+        res.status(200).json({ status : "success", statusCode : 200, data : { result : "product altered." }}) 
 })
 
 router.delete('/', isAdmin, async function(req, res, next) {
     let id = req.body.id;
+    let result;
     try{
-        await productServices.deleteProduct(id)
-    }catch( err )  { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update product." }})}
-    res.status(200).json({ status : "success", statusCode : 200, data : { result : "product deleted." }})
+        result = await productServices.deleteProduct(id)
+    }catch( err )  { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update product." }}); return;}
+    result[0] == 0 ? res.status(400).json({ status : "success", statusCode : 400, data : { result : "No product of id." }}) :
+     res.status(200).json({ status : "success", statusCode : 200, data : { result : "product deleted." }})
 })
 
 module.exports = router; 
