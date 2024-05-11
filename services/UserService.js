@@ -4,6 +4,7 @@ class UserService {
     constructor(db) {
         this.client = db.sequelize;
         this.User = db.User;
+        this.UserRole = db.UserRole;
     }
 
     //include userRole/Roleid
@@ -27,6 +28,13 @@ class UserService {
         ).catch( err => { console.log(err); return err })
     }
 
+    async alterUserRole(role){
+        return await this.UserRole.update({
+            RoleId : role.roleid
+        },{ where : { UserId : role.userid, UserId : { [Op.not] : 1 } }}
+        ).catch( err => { console.log(err); return err })
+    }
+
     //create User, create cart/membership/role on create.
     async createUser(User){
         return await this.User.create({
@@ -47,9 +55,8 @@ class UserService {
              phone : User.phone,
              adress : User.adress,
              userName : User.userName
-        },{
-        where : { id : User.id }
-            }).catch( err => { console.log(err); return err })
+        },{ where : { id : User.id } }
+        ).catch( err => { console.log(err); return err })
     }
 
 

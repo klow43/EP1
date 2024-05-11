@@ -5,10 +5,10 @@ class MembershipService {
         this.UserMembership = db.UserMembership;
     }
 
-    async alterUserMembership(userid, membershipid){
+    async alterUserMembership(membership){
         return await this.UserMembership.update({
-            MembershipId : membershipid,
-            }, { where : { UserId : userid } }
+            MembershipId : membership.membershipid,
+            }, { where : { UserId : membership.userid } }
         ).catch( err => { console.log(err); return err })
     }
 
