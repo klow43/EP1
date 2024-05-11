@@ -63,7 +63,7 @@ class ProductService {
             price : Product.price,
             quantity : Product.quantity,
             imgurl : Product.imgurl,
-        }).catch( err => { console.log(err); return err })
+        }).catch( err => { console.log(err); throw err })
     }
  
     async alterProduct(Product){

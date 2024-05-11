@@ -11,7 +11,7 @@ router.post('/', async function(req, res, next) {
 let result;
    try{
      result = await InsertProducts();  
-      if(result == 208){res.status(208).json({status : 'success', statusCode : 208, data : { result : 'Database already populated.'}})}   
+      if(result == 208){res.status(208).json({status : 'success', statusCode : 208, data : { result : 'Database already populated.'}}); return;}   
    }catch(err){console.log(err); res.status(500).json({status : 'error', statusCode : 500, data : { result : "Server error.Unable to populate database with inital data."}});return;}
  if(result == 200){
     await databaseService.setAdmin();  

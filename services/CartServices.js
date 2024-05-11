@@ -47,7 +47,7 @@ class CartService {
         ).catch( err => { console.log(err); return err })
     }
 
-    //update or create product in cart, no response if isDeleted(out of stock) is true.
+    //update or create product in cart, no response if Processed = 1.
     async postCart(cartid, product ){
         return await this.CartProducts.findOrCreate({
             where : { ProductId : product.productid, CartId : cartid.id, Processed : 0 },

@@ -27,14 +27,12 @@ router.get('/:membershipid', async function ( req, res, next ) {
 //req.body = name, minItems, maxItems, discount
 router.post('/', isAdmin, async function ( req, res, next ) {
     let newmembership = req.body;
-    let result;
     try{
         await membershipService.createMembership(newmembership)
             .then(data => data.name == 'SequelizeValidationError' ? 
                 res.status(400).json({status : "error", statusCode : 400, data : { result : data?.message ? data.message : data.SequelizeUniqueConstraintError}}) :
                     res.status(200).json({status : "success", statusCode : 200, data : { result : "Membership created."}}))      
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot create new membership"}}); return;}
-    res.send(result)
 })
 
 //req.body = id ++ 
@@ -52,6 +50,7 @@ router.put('/', isAdmin, async function ( req, res, next ) {
 //req.body = id
 router.delete('/', isAdmin,  async function ( req, res, next ){
     let membershipid = req.body?.id;
+    if(!req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided, and be a number." }}); return; }
     let result;
     try{
         result = await membershipService.deleteMembership(membershipid);

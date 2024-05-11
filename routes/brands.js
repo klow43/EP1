@@ -30,7 +30,7 @@ router.get('/:brandid', async function(req, res, next){
 router.post('/', isAdmin, async function(req, res, next) {
     let result;
     if(!req.body?.brand || req.body?.brand == "" || req.body?.brand == null)
-        {res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand must be provided." }})}
+        {res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand must be provided." }}); return;}
     try{
        result = await brandService.createBrand(req.body.brand); 
     }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Unable to create brand."}}); return;}
@@ -52,7 +52,7 @@ router.put('/', isAdmin, async function(req, res, next) {
 //table has restrict, cannot delete if related to a product.
 router.delete('/', isAdmin, async function(req, res, next) {
     let result;
-    if(!req.body?.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided." }}); return;}
+    if( !req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided." }}); return;}
     try{
         result = await brandService.deleteBrand(req.body.id);       
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Unable to delete brand" }}); return;}

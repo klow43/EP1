@@ -9,12 +9,12 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 
-//req contains name field(username or email) and password field
+//req.body = name(username or email), password
 router.post('/login', async function(req, res, next) {
     let user = req.body;
     let userdb = await userService.getLogin(user)
     let token;
-    if(!user.name || user?.name == 0 || user?.name == "" || user?.password == 0 || user?.password == ""  || !user?.password){
+    if( !user.name || user?.name == 0 || user?.name == "" || !user?.password || user?.password == 0 || user?.password == "" ){
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "userName/email must be provided as name, and password must be provided!"}}); return;
     }
     if(userdb !== null && await bcrypt.compare(user.password, userdb.password.toString()) == true){
@@ -28,7 +28,7 @@ router.post('/login', async function(req, res, next) {
 
 
  
-
+//req.body = firstName, lastName, email, password, phone, userName, address
 router.post('/register',jsonParser, async function(req, res, next) { 
     const newUser = req.body;
     try{ 
@@ -39,8 +39,7 @@ router.post('/register',jsonParser, async function(req, res, next) {
                 res.status(200).json({status : "success", statusCode : 200, data : { result : "You created an account."}}) :  
                     res.status(400).json({status : "error", statusCode : 400, data : { result : data?.message ? data.message : data.SequelizeUniqueConstraintError}})) 
         })  
-    }
-    catch(err){console.log(err); res.status(500).json({status : "error", statusCode : 500, data : { result : 'Unable to create User, pleasy try agin later.'}})}
+    }catch(err){console.log(err); res.status(500).json({status : "error", statusCode : 500, data : { result : 'Unable to create User, pleasy try agin later.'}})}
 })
 
 module.exports = router; 

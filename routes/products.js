@@ -32,9 +32,9 @@ router.post('/', isAdmin, async function(req, res, next) {
     let product = req.body;
     try {
         result = await productServices.createProduct(product);  
-    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot post product."}}); return;}
+    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot post product, name already in use."}}); return;}
     if(result?.name == 'SequelizeValidationError') 
-      {  res.status(400).json({ status : "error", statusCode : 400, data : { result : result?.message } }) }
+      {  res.status(400).json({ status : "error", statusCode : 400, data : { result : result?.message } }); return; }
     else{
         try{
             await productRelationServices.createProductBrand({productid : result.id, brandid : product.brandid})
@@ -47,6 +47,7 @@ router.post('/', isAdmin, async function(req, res, next) {
 // product includes brandid and categoryid from frontend
 router.put('/', isAdmin, async function(req, res, next) {
         let product = req.body;
+        if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
         let result;
     try{
         result = await productServices.alterProduct(product)
@@ -58,6 +59,7 @@ router.put('/', isAdmin, async function(req, res, next) {
 })
 
 router.delete('/', isAdmin, async function(req, res, next) {
+    if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
     let id = req.body.id;
     let result;
     try{

@@ -41,7 +41,7 @@ router.post('/checkout/now', isUser, async function (req, res, next){
     try{
     //get cart of user, Products, discount,cartid, membership
         cart = await cartServices.getCart( userid);
-        membership = await membershipServices.getUserMembership( userid);
+        membership = await membershipServices.getUserMembership(userid);
         quantity = membership.quantity
 
     //create array with Products,update for bulkCreate order.
@@ -94,11 +94,14 @@ router.put('/', isUser,  async function (req,res, next){
 router.delete('/', isUser, async function (req, res, next){
     let userid = UserId(req)
     let productid = req.body?.productid;
+    if(!req.body.productid){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "productid must be provided."} }); return;}
     try{
         cartid = await cartServices.getCartId(userid)
         result = await cartServices.deleteFromCart(productid,cartid.id)
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot delete from cart"}}); return;}
-    res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product removed from cart."}})
+    result == 0 ? 
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No product of id in cart."}}) : 
+            res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product removed from cart."}})
 });
 
 module.exports = router; 

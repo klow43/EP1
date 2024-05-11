@@ -23,9 +23,11 @@ router.get('/', isUser, async function(req, res, next) {
     res.status(200).json({ status : "success", statusCode : 200, data : { result : orders } });
 })
 
-//req.body = 
+//req.body = userid,newstatusid
 router.put('/', isAdmin, async function(req, res, next){
     let order = req.body;
+    if(!req.body.userid || !req.body.newstatusid && typeof(req.body.userid) != 'number' && typeof(req.body.newstatusid != 'number'))
+        {res.status(400).json({ status : "error", statusCode : 400, data : { result : "userid and newmembershipid must be provided and consist of numbers."}}); return;}
     let result;
     try{
         result = await orderServices.alterOrder(order) 
@@ -38,6 +40,7 @@ router.put('/', isAdmin, async function(req, res, next){
 //req.body = orderid
 router.delete('/', isAdmin, async function( req, res, next ) {
     let orderid = req.body.orderid;
+    if(!req.body.orderid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "orderid must be provided."}})}
     try{
         await orderServices.deleteOrder(orderid)
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update orderstatus"}}); return;}
