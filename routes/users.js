@@ -26,6 +26,7 @@ router.get('/', isAdmin, async function(req, res, next) {
 
 //req.body contains changes
 router.put('/', isAdmin, async function(req, res, next) {
+    if(!req.body.id){res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of user must be provided."}}); return;}
     let result;
     let newuser = req.body;
     try{
@@ -36,8 +37,9 @@ router.put('/', isAdmin, async function(req, res, next) {
 });
 
 router.delete('/', isAdmin, async function(req, res, next){
+    if(!req.body.id){res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of user must be provided."}}); return;}
     let result;
-    let userid = req.body;
+    let userid = req.body.id;
     try{
         result = await userServices.deleteUser(userid);
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot delete users."}}); return;}
