@@ -4,23 +4,36 @@ module.exports = ( sequelize, Sequelize ) => {
         name : {
             type : Sequelize.DataTypes.STRING(100),
                     allowNull : false,
-                    unique : { msg : 'Product already exists.'}
+                    unique : { msg : 'Product already exists.'},
+                    validate : {
+                        notNull : { msg : "name of Product cannot be null."},
+                    }  
               },   
         //not requiring description
         description :  Sequelize.DataTypes.STRING(255),
         price : {
                 type : Sequelize.DataTypes.DOUBLE(10,2),
-                    allowNull :  { msg : 'Price must be present.'}
+                allowNull : false,
+                validate : {
+                    notNull : { msg : 'Price must be present.'},
+                    isNumeric : { msg : "Price must only consist of numbers."}
+                } 
             },
         quantity : {
                 type : Sequelize.DataTypes.INTEGER,
-                    allowNull : { msg : 'Quantity must be present.'},
+                allowNull : false,
+                validate : {
+                    notNull : { msg : 'Quantity must be present.'},
                     isInt : { msg : 'Quantity must be a number.'},
+                }
             },
         imgurl : {
                 type : Sequelize.DataTypes.STRING(255),
+                allowNull : false,
+                validate : {
                     isUrl : { msg : 'Invalid url'},
-                    allowNull : { msg : 'Invalid url'},
+                    notNull : { msg : 'Url must be present'},
+                }
             },
             deletedAt : {
                 type : Sequelize.DataTypes.BOOLEAN,
