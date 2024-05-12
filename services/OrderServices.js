@@ -1,4 +1,4 @@
-const { Op } = require('Sequelize');
+const { Op } = require('sequelize');
 class OrderService {
     constructor(db) {
         this.client = db.sequelize;
