@@ -1,3 +1,4 @@
+const { Op } = require('Sequelize');
 class OrderService {
     constructor(db) {
         this.client = db.sequelize;
@@ -8,6 +9,12 @@ class OrderService {
         this.OrderStatus = db.OrderStatus;
     }
 
+    async getOrder(orderid){
+        return await this.Order.findAll({
+            where : { OrderId : orderid },
+            attributes : ['Id']
+        }).catch( err => { console.log(err); return err }) 
+    }
 
     //get view of all orders(admin)
     async getAllOrders(){
@@ -42,11 +49,11 @@ class OrderService {
     }
 
     //change order status
-    async alterOrder(Input){
+    async alterOrder(orderid, statusid){
         return await this.OrderProgress.update({
-            OrderStatusId : Input.Statusid
-        }, { where : { id : Input.Orderid }
-        }).catch( err => { console.log(err); return err }) 
+            OrderStatusId : statusid
+        },{ where : { OrderId : { [Op.in] : orderid }}} 
+        ).catch( err => { console.log(err); throw err }) 
     }
 
     //Delete order

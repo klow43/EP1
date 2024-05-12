@@ -23,24 +23,26 @@ router.get('/', isUser, async function(req, res, next) {
     res.status(200).json({ status : "success", statusCode : 200, data : { result : orders } });
 })
 
-//req.body = userid,newstatusid
+//req.body = orderid, statusid
 router.put('/', isAdmin, async function(req, res, next){
     let order = req.body;
-    if(!req.body.userid || !req.body.newstatusid && typeof(req.body.userid) != 'number' && typeof(req.body.newstatusid != 'number'))
-        {res.status(400).json({ status : "error", statusCode : 400, data : { result : "userid and newmembershipid must be provided and consist of numbers."}}); return;}
-    let result;
+    if(!req.body.orderid || !req.body.statusid && typeof(req.body.statusid != 'number'))
+        {res.status(400).json({ status : "error", statusCode : 400, data : { result : "orderid and statusid must be provided and statusid must consist of numbers."}}); return;}
     try{
-        result = await orderServices.alterOrder(order) 
+        //get all records associated to orderid(string)
+        let orderproducts = await orderServices.getOrder(order.orderid)
+        //create array of keys associated to OrderId
+        let orderids = orderproducts.map(x => { return x.Id })
+        //update all records associated to OrderId(string)
+        await orderServices.alterOrder( orderids, req.body.statusid )
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update orderstatus"}}); return;}
-    result[0] = 0 ?
-        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No order of provided id." }}) :
-            res.status(200).json({ status : "success", statusCode : 200, data : { result : "Orderstatus updated." }})
+res.status(200).json({ status : "success", statusCode : 200, data : { result : "Orderstatus updated." }})
 })
 
 //req.body = orderid
 router.delete('/', isAdmin, async function( req, res, next ) {
     let orderid = req.body.orderid;
-    if(!req.body.orderid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "orderid must be provided."}})}
+    if(!req.body.orderid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "orderid must be provided."}}); return;}
     try{
         await orderServices.deleteOrder(orderid)
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update orderstatus"}}); return;}
