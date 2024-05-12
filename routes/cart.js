@@ -20,23 +20,30 @@ router.get('/', isUser, async function (req, res, next){
     res.status(200).json({ status : "success", statusCode : 200, data : { result : "Products found", Products : cart[0]?.Products }});
 });
 
-//req body = productid, quantity, unit price, discount
+//req body = productid, quantity, unit price
 router.post('/', isUser, async function (req,res, next){ 
-    let data, cartid;
+    let data, cartid, membership,created,result;
     let userid = UserId(req)
-    let product = req.body;
+    let product = req.body; 
     try{ 
+        //get membership of userid(discount for order)
+        membership = await membershipServices.getUserMembership(userid);
+        //set products discount from users memebership
+        product.discount = membership.Membership.discount;
+        //calculate users discounted price
+        product.discountUnitPrice = product.discount == 0 ? product.unitPrice : ( product.unitPrice - (product.unitPrice / 100 * product.discount) );
+        //create or increment cart.
         cartid = await cartServices.getCartId(userid) 
             let [ result, created ] =  await cartServices.postCart(cartid,product) 
-           created == false ? data = await cartServices.incrementCart(product,cartid) : next()
+           if( created == false ) { data = await cartServices.incrementCart(product,cartid) }
+           if( created == true || data[0][1]){ res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product added to cart."}}); return; }
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot add to cart, please check availability on product."}}); return;}
-    res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product added to cart."}})
 });
 
 router.post('/checkout/now', isUser, async function (req, res, next){
     let orderid = randomstring.generate({ length : 8 })
     let userid = UserId(req)
-    let cart, membership,order,finish;
+    let cart, membership,order,finish; 
     let quantity = 0; 
     try{
     //get cart of user, Products, discount,cartid, membership

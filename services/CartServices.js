@@ -54,10 +54,10 @@ class CartService {
             defaults : {
             quantity : product.quantity, 
             unitPrice : product.unitPrice,
-            discountUnitPrice : 0,
+            discountUnitPrice : product.discountUnitPrice,
             discount : product.discount                
             },
-        }).catch( err => { console.log(err); return err })
+        }).catch( err => { console.log(err); throw err })
     }
 
     async updateCart(product,cartid){
