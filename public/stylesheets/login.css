@@ -1,0 +1,23 @@
+#loginheader{
+    font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+    letter-spacing: 2px;
+    color : #1B1B1B
+}
+
+#loginButton{
+    background-color: #487183;
+    font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+    letter-spacing: 2px;
+    color : #1B1B1B
+}
+
+#loginError{
+    color: #D21404;
+    font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+    border : 2px solid;
+    border-color: #D21404;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #D21404;
+    inline-size: 30%;
+    margin: auto;
+}
