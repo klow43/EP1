@@ -8,7 +8,7 @@ class ProductService {
 
     async getProduct(ProductId){
         return await this.client.query(
-         `select products.id, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
+         `select products.id, price, deletedAt, createdAt, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
          join productbrands
          on products.id = productbrands.ProductId
          join brands
@@ -25,7 +25,7 @@ class ProductService {
     //get products not "deleted"
     async getProducts(){
         return await this.client.query(
-        `select products.id, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
+        `select products.id, price, deletedAt, createdAt, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
         join productbrands
         on products.id = productbrands.ProductId
         join brands
@@ -42,7 +42,7 @@ class ProductService {
     //get all products, included "deleted" 
     async getAllProducts(){
         return await this.client.query(
-        `select products.id, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
+        `select products.id, price, deletedAt, createdAt, name, quantity, imgurl, description,productcategories.CategoryId, categories.Category,productbrands.BrandId, brands.Brand from products
         join productbrands
         on products.id = productbrands.ProductId
         join brands
