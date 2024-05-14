@@ -8,7 +8,7 @@ class SearchService {
     //specific brand name, return all products, number of result
     async searchBrand(search){
         return await this.client.query(
-        `select products.id, name, quantity, imgurl, description, brands.Brand, productbrands.BrandId, categories.Category, productcategories.CategoryId  from products
+        `select products.id, price, deletedAt, createdAt, name, quantity, imgurl, description, brands.Brand, productbrands.BrandId, categories.Category, productcategories.CategoryId  from products
         inner join productcategories
         on products.id = productcategories.ProductId
         join categories
@@ -25,7 +25,7 @@ class SearchService {
     //search specific categoryname, return all products with this category, number of results
     async searchCategory(search){
         return await this.client.query(
-        `select products.id, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
+        `select products.id, price, deletedAt, createdAt, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
         inner join productbrands
         on products.id = productbrands.ProductId
         join brands
@@ -42,7 +42,7 @@ class SearchService {
     //partial product name and number of results
     async searchProduct(search){
         return await this.client.query(
-            `SELECT products.id, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
+            `SELECT products.id, price, deletedAt, createdAt, name, quantity, imgurl, description, categories.Category , productcategories.CategoryId, brands.Brand, productbrands.BrandId from products
             inner join productbrands
             on products.id = productbrands.ProductId
             join brands
