@@ -11,10 +11,9 @@ async function populateDatabase(){
 let dbEmpty = await userService.getUsers();
 
 if(dbEmpty.length == 0){
-    // let apicall = await fetch('http://backend.restapi.co.za/items/products')  
-    // .then((response) => response.json())
-    // .then((json) => json.data) 
-    let apicall = require('./products.json')
+    let apicall = await fetch('http://backend.restapi.co.za/items/products')  
+    .then((response) => response.json())
+    .then((json) => json.data) 
             //insert category and brand
             let Brand = [];
             let Category = [];
@@ -34,7 +33,7 @@ if(dbEmpty.length == 0){
                 if( file !== basename && file !== 'products.json' ) {
                     const { data } = JSON.parse(fs.readFileSync(__dirname + '/' + file));
                     for( i = 0; i < data.length; i++ ){
-                    databaseService.InitialData(data[i].query);  
+                    databaseService.InitialData(data[i].query);
                     } 
                 }
             return; 
