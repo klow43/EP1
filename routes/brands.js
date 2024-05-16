@@ -11,8 +11,8 @@ router.get('/', async function(req, res, next) {
         brands = await brandService.getBrands();
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve brands."}}); return;}
     brands[0] == null ? 
-    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brands found.", products : brands } }) :
-      res.status(200).json({ status : "success", statusCode : 200, data : { result : "brands found.", products : brands }})
+    res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brands found.", brands : brands } }) :
+      res.status(200).json({ status : "success", statusCode : 200, data : { result : "brands found.", brands : brands }})
 })
 
 router.get('/:brandid', async function(req, res, next){
@@ -23,8 +23,8 @@ router.get('/:brandid', async function(req, res, next){
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve brand."}}); return;};
 
     brand == null ?
-        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brand found.", products : brand } }) :
-            res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand found.", products : brand }})
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No brand found.", brand: brand } }) :
+            res.status(200).json({ status : "success", statusCode : 200, data : { result : "brand found.", brand : brand }})
 });
 
 router.post('/', isAdmin, async function(req, res, next) {

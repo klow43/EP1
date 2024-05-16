@@ -12,8 +12,8 @@ router.get('/', async function(req, res, next) {
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve categories."}}); return;}
 
     categories[0] == null ? 
-      res.status(400).json({ status : "error", statusCode : 400, data : { result : "No categories found.", products : categories } }) :
-        res.status(200).json({ status : "success", statusCode : 200, data : { result : "Categories found.", products : categories }})
+      res.status(400).json({ status : "error", statusCode : 400, data : { result : "No categories found.", categories : categories } }) :
+        res.status(200).json({ status : "success", statusCode : 200, data : { result : "Categories found.", categories : categories }})
 });
 
 router.get('/:categoryid', async function(req, res, next){
@@ -24,8 +24,8 @@ router.get('/:categoryid', async function(req, res, next){
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve category."}}); return;}
 
     category == null ?
-        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No category found.", products : category } }) :
-            res.status(200).json({ status : "success", statusCode : 200, data : { result : "Category found.", products : category }})
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "No category found.", category : category } }) :
+            res.status(200).json({ status : "success", statusCode : 200, data : { result : "Category found.", category : category }})
 })
 
 router.post('/', isAdmin, async function(req, res, next) {

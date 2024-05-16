@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', async function(req, res,next){
-  let { password, name }= req.body;
+  let { password, name } = req.body;
   result = await axios({
     method : 'post',
     url : 'http://localhost:3000/auth/login',
