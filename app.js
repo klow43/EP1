@@ -17,6 +17,8 @@ const cartRouter = require('./routes/cart');
 const userRouter = require('./routes/users');
 const membershipRouter = require('./routes/membership');
 
+const adminProductRouter = require('./routes/adminproducts');
+
 var db = require("./models");
 db.sequelize.sync({ force : false });
 
@@ -31,6 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules/bootstrap-icons'));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 
 app.use('/', loginRouter);
 app.use('/init', initRouter )
@@ -43,6 +47,7 @@ app.use('/orders', ordersRouter);
 app.use('/cart', cartRouter);
 app.use('/users', userRouter);
 app.use('/memberships', membershipRouter);
+app.use('/admin/products',adminProductRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
