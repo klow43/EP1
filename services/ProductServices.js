@@ -72,7 +72,8 @@ class ProductService {
             description : Product.description,
             price : Product.price,
             quantity : Product.quantity,
-            imgurl : Product.imgurl
+            imgurl : Product.imgurl,
+            deletedAt : Product.deletedAt
         }, { where : { id : Product.id }}
             ).catch( err => { console.log(err); return err }) 
     }
