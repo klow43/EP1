@@ -1,0 +1,58 @@
+<div class="modal fade" id="productsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" action="/admin/products/new" method="POST">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" aria-label="name" value="">
+                        </div>
+                        <div class="form-check ms-2">
+                            <input class="form-check-input" type="checkbox" value="1" id="deletedAt">
+                            <label class="form-check-label" for="deletedAt">Deleted</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" aria-label="description" value="">
+                    </div>
+                        <div class="col-4 input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="price" aria-label="price" value="">
+                        </div>
+                        <div class="col-4 input-group">
+                            <span class="input-group-text">Quantity</span>
+                            <input type="number" class="form-control" id="quantity" aria-label="quantity" value="">
+                        </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label for="brand" class="form-label">Brand</label>
+                            <select  id="brand" class="form-select">
+                                <%brands.forEach(brand =>{%>
+                                    <option value="<%=brand.id%>"><%=brand.Brand%></option>
+                                <%})%>  
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="categories" class="form-label">Category</label>
+                            <select id="categories" class="form-select">
+                                <%categories.forEach(category =>{%>
+                                    <option value="<%=category.id%>"><%=category.Category%></option>
+                                <%})%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,58 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#navbar {
+  background-color: #74a6d9;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
 }
 
-a {
-  color: #00B7FF;
+#addButton{
+  background-color: #689dd6;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+  letter-spacing: 2px;
+  color : #1B1B1B;
+  border : 2px solid;
+  border-color: #74a6d9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #74a6d9;
+}
+
+#searchButton{
+  background-color: #689dd6;
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+  letter-spacing: 2px;
+  color : #1B1B1B;
+  border : 2px solid;
+  border-color: #74a6d9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #74a6d9;
+}
+
+#h1{
+  font-family: New Century Schoolbook, TeX Gyre Schola, serif;
+  letter-spacing: 2px;
+  color : #1B1B1B;
+}
+
+#h1:hover{
+  cursor : pointer;
+}
+
+#titlerow{
+  border-bottom: 4px solid;
+  border-radius: 4px;
+  border-color: #74a6d9;;
+}
+
+#itemRow{
+  border-bottom: 1px solid;
+  border-radius: 1px;
+  border-color: #74a6d9;;   
+}
+
+#deletebtn{
+  background-color: #b20000;
+  border-color:#4c0000;
+}
+
+#updatebtn{
+  background-color: #466D1D;   
+  border-color: #234F1E;
 }
