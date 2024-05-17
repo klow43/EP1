@@ -1,0 +1,24 @@
+<div class="modal fade" id="multiModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5"><%=type%></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="row g-3" action="/admin/<%=type%>" method="POST">
+                    <div class="col-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" aria-label="name" name ="<%=type%>">
+                    </div> 
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Submit</button>
+                    </div>                 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
