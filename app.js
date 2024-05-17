@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//
 const loginRouter = require('./routes/login');
 const initRouter = require('./routes/init');
 const authRouter = require('./routes/auth');
@@ -17,7 +18,11 @@ const cartRouter = require('./routes/cart');
 const userRouter = require('./routes/users');
 const membershipRouter = require('./routes/membership');
 
+//admin endpoints
 const adminProductRouter = require('./routes/adminproducts');
+const adminBrandsRouter = require('./routes/adminbrands');
+const adminCategoriesRouter = require('./routes/admincategories');
+const adminMembershipsRouter = require('./routes/adminmemberships');
 
 var db = require("./models");
 db.sequelize.sync({ force : false });
@@ -47,7 +52,12 @@ app.use('/orders', ordersRouter);
 app.use('/cart', cartRouter);
 app.use('/users', userRouter);
 app.use('/memberships', membershipRouter);
+
+//admin endpoints
 app.use('/admin/products',adminProductRouter);
+app.use('/admin/brands', adminBrandsRouter);
+app.use('/admin/categories', adminCategoriesRouter);
+app.use('/admin/memberships', adminMembershipsRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
