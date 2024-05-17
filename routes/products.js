@@ -10,7 +10,7 @@ const { isAdmin } = require('../services/middleware');
 router.get('/',async function(req, res, next) {
     let products;
     try{
-        products = await productServices.getProducts();
+        products = await productServices.getAllProducts();
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved products."}}); return;}
     products[0] == null ? 
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "No products found.", products : products } }) :

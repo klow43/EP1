@@ -9,9 +9,9 @@ router.post('/', async function (req, res, next){
     let search = req.body;
     let data;
     try{
-        if( search?.categories ){ data = await searchServices.searchCategory(search.categories); }
-        if( search?.brand ) { data = await searchServices.searchBrand(search.brand); }
-        if( search?.product ) { data = await searchServices.searchProduct(search.product); }  
+        if( search.type == 'category' ){ data = await searchServices.searchCategory(search.search); }
+        if( search.type == 'brand' ) { data = await searchServices.searchBrand(search.search); }
+        if( search.type =='product' ) { data = await searchServices.searchProduct(search.search); }  
     }catch( err ) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve search" }}); return; }
     data?.[0] == 0 ?
         res.status(500).json({ status : "error", statusCode : 500, data : { result : "No products found", products : data }}) :

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('./partial/header.ejs') %>
+<link rel="stylesheet" href ="/stylesheets/products.css">
+</head>
+<body>
+    <%- include('./partial/navbar.ejs') %>
+    <h1 id="h1" class="text-center my-5" onclick="window.location='/admin/products'">Products</h1>
+    <%- include('./partial/search.ejs', { type : 'products'}) %>
+    <%- include('./partial/products.ejs', { products : products }) %>
+    <%- include('./partial/productModal.ejs', { brands : brands, categories : categories}) %>
+    <script src="../js/products.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
