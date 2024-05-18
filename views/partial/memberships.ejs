@@ -1,0 +1,23 @@
+<div class="container mt-4">
+        <div id="titlerow" class="row text-center">
+            <div class="col-2">Name</div>
+            <div class="col-2">Minimum items</div>
+            <div class="col">Maximum items</div>
+            <div class="col">Discount</div> 
+</div>
+    <% memberships.forEach(membership => { %>
+    <div id="itemRow" class="row text-center mt-3">
+        <div class="col"><p><%=membership.Membership%></p></div>
+        <div class="col"><p><%=membership.minItems%></p></div>
+        <div class="col"><p><%=membership.maxItems%></p></div>
+        <div class="col"><p><%=membership.discount%>%</p></div>
+        <div class="col">
+            <button id="deletebtn" class="rounded" onclick="deleteMembership(<%=membership.id%>)"><i class="bi bi-fire"></i></button>
+            <button id="updatebtn" class="rounded" onclick="alterMembership(<%=membership%>)"><i class="bi bi-brush"></i></button>
+        </div>  
+    </div>
+    <%})%>
+</div>
+<div class="container mt-4">
+    <button id="addButton" type="button" class="btn rounded text-center" data-bs-toggle="modal" data-bs-target="#membershipModal" aria-label="addMembership">Add Membership</button>
+</div>

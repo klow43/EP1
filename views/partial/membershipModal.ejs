@@ -1,0 +1,37 @@
+<div class="modal fade" id="membershipModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Membership</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="row g-3" action="/admin/memberships" method="POST">
+                    <div class="col-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" aria-label="name" name ="membership">
+                    </div>
+                    <div class="row my-4">
+                        <div class="col input-group">
+                            <span class="input-group-text">minItems</span>
+                            <input type="number" class="form-control" aria-label="minitems" name="minItems">
+                        </div>
+                        <div class="col input-group">
+                            <span class="input-group-text">maxItems</span>
+                            <input type="number" class="form-control" aria-label="maxitems" name="maxItems">
+                        </div>                
+                    </div> 
+                    <div class="col input-group">
+                        <span class="input-group-text">discount</span>
+                        <input type="number" class="form-control" aria-label="discount" name="discount">
+                    </div>   
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Submit</button>
+                    </div>                 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
