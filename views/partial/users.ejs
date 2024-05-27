@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <div id="titlerow" class="row text-center">
+        <div class="col">Firstname</div>
+        <div class="col">Lastname</div>
+        <div class="col">Email</div>
+        <div class="col">Username</div>
+        <div class="col">Phone</div>
+        <div class="col">Address</div>
+        <div class="col">Updated</div>
+        <div class="col">Created</div>
+        <div class="col">Edit</div>
+    </div>
+    <% users.forEach(user => { %>
+    <div id="itemRow" class="row text-center mt-3">
+        <div class="col"><p><%=user.firstName%></p></div>
+        <div class="col"><p><%=user.lastName%></p></div>
+        <div class="col"><p><%=user.email%></p></div>
+        <div class="col"><p><%=user.userName%></p></div> 
+        <div class="col"><p><%=user.phone%></p></div>
+        <div class="col"><p><%=user.address%></p></div>
+        <div class="col"><p><%=user.createdAt%></p></div>
+        <div class="col"><p><%=user.updatedAt%></p></div>
+        <div class="col">
+            <button id="updatebtn" type="button" class="rounded" data-bs-toggle="modal" data-bs-target="#userModal" data-bs-whatever="<%=JSON.stringify(user)%>" aria-label="changeUser"><i class="bi bi-brush"></i></button>
+            <button id="deletebtn" class="rounded" onclick="deleteUser(<%=user.id%>)"><i class="bi bi-fire"></i></button>
+        </div>  
+    </div>
+    <%})%>
+</div>

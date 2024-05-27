@@ -53,7 +53,7 @@ class UserService {
              firstName : User.firstName,
              lastName : User.lastName,
              phone : User.phone,
-             adress : User.adress,
+             address : User.address,
              userName : User.userName
         },{ where : { id : User.id } }
         ).catch( err => { console.log(err); return err })
