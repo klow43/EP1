@@ -15,22 +15,34 @@ router.get('/', async function (req, res, next){
         res.render('brands', { brands : brands })
 });
 
-//router .post/put
+//if !id - POST, else PUT
 router.post('/', async function(req,res,next){
     let brand = req.body.brands;
-    create = await axios({
-        method : 'post',
-        url : 'http://localhost:3000/brands',
-        data : {
-            brand : brand
-        }
-    }).catch(err => console.log(err));
+    if(!req.body.id){
+        create = await axios({
+            method : 'post',
+            url : 'http://localhost:3000/brands',
+            data : {
+                brand : brand
+            }
+        }).catch(err => console.log(err));
+    }
+    else{
+        alter = await axios({
+            method : 'put',
+            url : 'http://localhost:3000/brands',
+            data : {
+                id : req.body.id,
+                brand : brand
+            }
+        }).catch(err => console.log(err));
+    }
+
     res.redirect('/admin/brands');
 })
 
 router.delete('/', async function(req,res,next){
     let id = req.body.id;
-    console.log(id)
     product = await axios({
         method : 'delete',
         url : 'http://localhost:3000/brands',
