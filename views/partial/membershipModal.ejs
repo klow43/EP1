@@ -8,23 +8,24 @@
 
             <div class="modal-body">
                 <form class="row g-3" action="/admin/memberships" method="POST">
+                    <div id="modalPut"></div>
                     <div class="col-6">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" aria-label="name" name ="membership">
+                        <input id="name" type="text" class="form-control"  aria-label="name" name ="membership">
                     </div>
                     <div class="row my-4">
                         <div class="col input-group">
                             <span class="input-group-text">minItems</span>
-                            <input type="number" class="form-control" aria-label="minitems" name="minItems">
+                            <input id="minItems" type="number" class="form-control" aria-label="minitems" name="minItems">
                         </div>
                         <div class="col input-group">
                             <span class="input-group-text">maxItems</span>
-                            <input type="number" class="form-control" aria-label="maxitems" name="maxItems">
+                            <input id="maxItems" type="number" class="form-control" aria-label="maxitems" name="maxItems">
                         </div>                
                     </div> 
                     <div class="col input-group">
                         <span class="input-group-text">discount</span>
-                        <input type="number" class="form-control" aria-label="discount" name="discount">
+                        <input id="discount" type="number" class="form-control" aria-label="discount" name="discount">
                     </div>   
                     <div class="modal-footer">
                         <button type="button" class="btn" data-bs-dismiss="modal">Close</button>

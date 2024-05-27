@@ -13,7 +13,7 @@
         <div class="col"><p><%=membership.discount%>%</p></div>
         <div class="col">
             <button id="deletebtn" class="rounded" onclick="deleteMembership(<%=membership.id%>)"><i class="bi bi-fire"></i></button>
-            <button id="updatebtn" class="rounded" onclick="alterMembership(<%=membership%>)"><i class="bi bi-brush"></i></button>
+            <button id="updatebtn" class="rounded" data-bs-toggle="modal" data-bs-target="#membershipModal" aria-label="alterMembership" data-bs-whatever="<%=JSON.stringify(membership)%>"><i class="bi bi-brush"></i></button>
         </div>  
     </div>
     <%})%>

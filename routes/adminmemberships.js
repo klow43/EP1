@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios')
 
-let membership;
-
 router.get('/', async function (req, res, next){
 
     getmemberships = await axios({
@@ -15,17 +13,36 @@ router.get('/', async function (req, res, next){
         res.render('membership', { memberships : membership })
 });
 
-//router post/put
+//if !id - POST, else PUT
 router.post('/', async function(req,res,next){
-    console.log(req.body)
-    let membership = req.body.membership;
-    create = await axios({
-        method : 'post',
-        url : 'http://localhost:3000/memberships',
-        data : {
-            membership : membership
-        }
-    }).catch(err => console.log(err));
+    let membership = req.body;
+
+    if(!req.body.id){
+        create = await axios({
+            method : 'post',
+            url : 'http://localhost:3000/memberships',
+            data : {
+                name : membership.membership,
+                minItems : membership.minItems,
+                maxItems : membership.maxItems,
+                discount : membership.discount
+            }
+        }).catch(err => console.log(err));
+    }
+
+    else{
+        alter = await axios({
+            method : 'put',
+            url : 'http://localhost:3000/memberships',
+            data : {
+                id : req.body.id,
+                name : membership.membership,
+                minItems : membership.minItems,
+                maxItems : membership.maxItems,
+                discount : membership.discount
+            }
+        }).catch(err => console.log(err));
+    }
     res.redirect('/admin/memberships');
 })
 
