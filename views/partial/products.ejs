@@ -24,7 +24,7 @@
             <div class="col"><p><%=product.createdAt%></p></div>
             <div class="col">
                 <button id="deletebtn" class="rounded" onclick="deleteProduct(<%=product.id%>)"><i class="bi bi-fire"></i></button>
-                <button id="updatebtn" class="rounded" onclick="alterProduct(<%=product%>)"><i class="bi bi-brush"></i></button>
+                <button id="updatebtn" class="rounded" data-bs-toggle="modal" data-bs-target="#productsModal" aria-label="alterProduct" data-bs-whatever="<%=JSON.stringify(product)%>"><i class="bi bi-brush"></i></button>
             </div>
         </div>   
     <%})%>

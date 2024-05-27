@@ -7,7 +7,7 @@ let brands;
 
 router.get('/', async function(req, res,next){
 
-    products = await axios({
+    getproducts = await axios({
         method : 'get',
         url : 'http://localhost:3000/products'
     }).catch(err => console.log(err.status));
@@ -24,11 +24,13 @@ router.get('/', async function(req, res,next){
 
     categories = getcategories?.data?.data?.categories;
     brands = getbrands?.data?.data?.brands;
-    res.render('products', { products : products?.data?.data.products, categories : categories, brands : brands })
+    products = getproducts?.data?.data?.products
+    console.log( products.length )
+    res.render('products', { products : products, categories : categories, brands : brands })
 })
 
 router.post('/', async function(req,res,next){
-    let search = req.body;
+    let search = req.body; 
     item = search.item;
     type = search.type;
     if(search.item == null || search.item == 0 ){ res.render('products', { products : [], categories : categories, brands : brands }); return;}
@@ -43,16 +45,26 @@ router.post('/', async function(req,res,next){
     res.render('products', { products : products?.data?.data?.products, categories : categories, brands : brands })
 })
 
-//send indication for put or post from frontend, if product.id? then put, else post.
+//if !id - POST else put
 router.post('/new', async function(req,res,next){
-    let product = req.body.product;
-    create = await axios({
-        method : 'post',
-        url : 'http://localhost:3000/products',
-        data : {
-            product : product
-        }
-    }).catch(err => console.log(err.status));
+    let product = req.body;
+
+    if(!req.body.id){
+        create = await axios({
+            method : 'post',
+            url : 'http://localhost:3000/products',
+            data : product 
+        }).catch(err => console.log(err.status));
+    }
+
+    else{
+        alter = await axios({
+            method : 'put',
+            url : 'http://localhost:3000/products',
+            data : product
+        }).catch(err => console.log(err.status));     
+    }
+
     res.redirect('/admin/products');
 })
 

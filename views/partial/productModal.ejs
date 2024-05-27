@@ -7,42 +7,49 @@
             </div>
             <div class="modal-body">
                 <form class="row g-3" action="/admin/products/new" method="POST">
+                    <div id="modalPut"></div>
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" aria-label="name" name="name" value="">
+                            <input id="name" type="text" class="form-control" aria-label="name" name="name">
                         </div>
                         <div class="form-check ms-2">
-                            <input class="form-check-input" type="checkbox" value="1" id="deletedAt" name="deletetAt">
+                            <input id="deleted" class="form-check-input" type="checkbox" value="1" id="deletedAt" name="deletedAt">
                             <label class="form-check-label" for="deletedAt" >Deleted</label>
                         </div>
                     </div>
                     <div class="col-12">
                         <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" aria-label="description" name="description" value="">
+                        <input type="text" class="form-control" id="description" aria-label="description" name="description">
+                    </div>
+                    <div class="col-4 input-group">
+                        <span class="input-group-text">URL</span>
+                        <input type="url"" class="form-control" id="imgurl" aria-label="image url" name="imgurl">
                     </div>
                         <div class="col-4 input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="price" aria-label="price" name="price" value="">
+                            <input type="number" class="form-control" id="price" aria-label="price" name="price">
                         </div>
                         <div class="col-4 input-group">
                             <span class="input-group-text">Quantity</span>
-                            <input type="number" class="form-control" id="quantity" aria-label="quantity" name="quantity" value="">
+                            <input type="number" class="form-control" id="quantity" aria-label="quantity" name="quantity">
                         </div>
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="brand" class="form-label">Brand</label>
                             <select id="brand" name="brand" class="form-select">
+                                <option value="" selected>Select Brand</option>
                                 <%brands.forEach(brand =>{%>
-                                    <option value="<%=brand.id%>"><%=brand.Brand%></option>
+                                    <option id="brandOption" value="<%=brand.id%>"><%=brand.Brand%></option>
                                 <%})%>  
                             </select>
                         </div>
                         <div class="col-6">
                             <label for="categories" class="form-label">Category</label>
                             <select id="categories" name="category" class="form-select">
+                                <option value="" selected>Select Category</option>
                                 <%categories.forEach(category =>{%>
-                                    <option value="<%=category.id%>"><%=category.Category%></option>
+                                    <option id="categoryOption" value="<%=category.id%>"><%=category.Category%></option>
                                 <%})%>
                             </select>
                         </div>
