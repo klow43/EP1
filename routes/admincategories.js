@@ -13,15 +13,28 @@ router.get('/', async function(req, res,next){
     res.render('categories', { categories : categories })
 })
 
+//if !id - post, else put
 router.post('/', async function(req,res,next){
     let category = req.body.categories;
-    create = await axios({
-        method : 'post',
-        url : 'http://localhost:3000/categories',
-        data : {
-            category : category
-        }
-    }).catch(err => console.log(err));
+    if(!req.body.id){
+        create = await axios({
+            method : 'post',
+            url : 'http://localhost:3000/categories',
+            data : {
+                category : category
+            }
+        }).catch(err => console.log(err));
+    }
+    else{
+        alter = await axios({
+            method : 'put',
+            url : 'http://localhost:3000/categories',
+            data : {
+                id : req.body.id,
+                category : category
+            }
+        }).catch(err => console.log(err));
+    }
     res.redirect('/admin/categories');
 })
 
@@ -30,12 +43,12 @@ router.delete('/', async function(req,res,next){
     console.log(id)
     product = await axios({
         method : 'delete',
-        url : 'http://localhost:3000/brands',
+        url : 'http://localhost:3000/categories',
         data : {
             id : id
         }
     }).catch(err => console.log(err?.response?.data));
-    res.end()
+    res.redirect('/admin/categories')
 })
 
 

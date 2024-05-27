@@ -1,5 +1,4 @@
-//modal for brands and categories
-<div class="modal fade" id="multiModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+<div class="modal fade" id="multiModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -9,7 +8,8 @@
             </div>
 
             <div class="modal-body">
-                <form class="row g-3" action="/admin/<%=type%>" method="POST">
+                <form id="modalForm" class="row g-3" action="/admin/<%=type%>" method="POST">
+                    <div id="modalPut"></div>
                     <div class="col-6">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" aria-label="name" name ="<%=type%>">
