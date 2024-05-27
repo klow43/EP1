@@ -23,6 +23,8 @@ const adminProductRouter = require('./routes/adminproducts');
 const adminBrandsRouter = require('./routes/adminbrands');
 const adminCategoriesRouter = require('./routes/admincategories');
 const adminMembershipsRouter = require('./routes/adminmemberships');
+const adminOrdersRouter = require('./routes/adminorders');
+const adminUsersRouter = require('./routes/adminusers');
 
 var db = require("./models");
 db.sequelize.sync({ force : false });
@@ -40,6 +42,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap-icons'));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 
 app.use('/', loginRouter);
 app.use('/init', initRouter )
@@ -58,6 +61,8 @@ app.use('/admin/products',adminProductRouter);
 app.use('/admin/brands', adminBrandsRouter);
 app.use('/admin/categories', adminCategoriesRouter);
 app.use('/admin/memberships', adminMembershipsRouter);
+app.use('/admin/orders', adminOrdersRouter);
+app.use('/admin/users', adminUsersRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
