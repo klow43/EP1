@@ -23,6 +23,14 @@ router.get('/', isUser, async function(req, res, next) {
     res.status(200).json({ status : "success", statusCode : 200, data : { result : orders } });
 })
 
+router.get('/statuses', isAdmin, async function (req, res, next){
+    let result;
+    try{
+        result = await orderServices.getOrderStatuses();
+    }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieve statuses"}}); return;}
+    res.status(200).json({ status : "success", statusCode : 200, data : { result : result } }); 
+})
+
 //req.body = orderid, statusid
 router.put('/', isAdmin, async function(req, res, next){
     let order = req.body;
