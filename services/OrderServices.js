@@ -9,6 +9,11 @@ class OrderService {
         this.OrderStatus = db.OrderStatus;
     }
 
+    async getOrderStatuses(){
+        return await this.OrderStatus.findAll()
+        .catch( err => { console.log(err); return err }) 
+    }
+
     async getOrder(orderid){
         return await this.Order.findAll({
             where : { OrderId : orderid },
