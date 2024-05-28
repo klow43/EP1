@@ -37,7 +37,7 @@
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="brand" class="form-label">Brand</label>
-                            <select id="brand" name="brand" class="form-select">
+                            <select id="brand" name="brandid" class="form-select">
                                 <option value="" selected>Select Brand</option>
                                 <%brands.forEach(brand =>{%>
                                     <option id="brandOption" value="<%=brand.id%>"><%=brand.Brand%></option>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-6">
                             <label for="categories" class="form-label">Category</label>
-                            <select id="categories" name="category" class="form-select">
+                            <select id="categories" name="categoryid" class="form-select">
                                 <option value="" selected>Select Category</option>
                                 <%categories.forEach(category =>{%>
                                     <option id="categoryOption" value="<%=category.id%>"><%=category.Category%></option>
