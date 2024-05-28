@@ -51,8 +51,8 @@ router.put('/', isAdmin, async function(req, res, next) {
         let result;
     try{
         result = await productServices.alterProduct(product)
-        await productRelationServices.alterProductBrand(product);
-        await productRelationServices.alterProductCategory(product);
+        if(product.brandid != ''){ await productRelationServices.alterProductBrand(product) };
+        if(product.categoryid != ''){ await productRelationServices.alterProductCategory(product) };
     }catch( err )  { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update product." }}); return;}
     result == 0 ? res.status(400).json({ status : "success", statusCode : 400, data : { result : "No product of id." }}) :
         res.status(200).json({ status : "success", statusCode : 200, data : { result : "product altered." }}) 
