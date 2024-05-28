@@ -1,0 +1,29 @@
+<div class="modal fade" id="ordersModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Order Status</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="row g-3" action="/admin/orders" method="POST">
+                    <div id="modalPut"></div>
+                    <div class="col-6">
+                        <label for="statuses" class="form-label">Statuses</label>
+                        <select id="statusid" name="statusid" class="form-select">
+                            <%statuses.forEach(status =>{%>
+                                <option value="<%=status.id%>"><%=status.Status%></option>
+                            <%})%>
+                        </select>
+                    </div>
+ 
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Submit</button>
+                    </div>                 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

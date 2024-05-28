@@ -1,0 +1,30 @@
+<div class="container mt-5 ">
+        <% orders.forEach(order => { %>
+            <div id="orderDiv" class="mt-5">
+                <div id="orderSum" class="row text-center mt-2 pt-3">
+                    <p class="col">OrderId : <%=order.OrderId%></p>
+                    <p class="col">Membership : <%=order.membershipstatus%></p>
+                    <p class="col">Created : <%=order.createdAt%></p>
+                    <p class="col">Updated : <%=order.updatedAt%></p>
+                    <p class="col">Status : <%=order.OrderProgress.OrderStatus.Status%></p>
+                    <div class="col">
+                        <button id="updatebtn" type="button" class="rounded" data-bs-toggle="modal" data-bs-target="#ordersModal" aria-label="changeOrderStatus" data-bs-whatever="<%=JSON.stringify(order)%>"><i class="bi bi-brush"></i></button>
+                    </div>  
+                </div>
+                <div id="productsHeader" class="row text-center mt-1">
+                    <p class="col fw-bold">Product</p>
+                    <p class="col fw-bold">Quantity</p>
+                    <p class="col fw-bold">Price</p>
+                </div>
+                <% products.forEach(product => { if(product.OrderId == order.OrderId){%>
+                    <div id="productsItem" class="row text-center mt-1">
+                        <p class="col"><%=product.product%></p>
+                        <p class="col"><%=product.Quantity%></p>
+                        <p class="col"><%=product.discountUnitPrice%></p>
+                    </div>
+                        <%}%>
+                <%})%> 
+            </div>
+        <%})%>     
+</div>
+
