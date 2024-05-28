@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const axios = require('axios')
+const axios = require('axios');
+const { cookieCheck } = require('../services/middleware');
 
 let brands;
 
-router.get('/', async function (req, res, next){
+router.get('/', cookieCheck, async function (req, res, next){
 
     getbrands = await axios({
         method : 'get',

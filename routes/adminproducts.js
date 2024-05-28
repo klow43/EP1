@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios')
+const { cookieCheck } = require('../services/middleware');
 
 let categories;
 let brands;
 
-router.get('/', async function(req, res,next){
+router.get('/', cookieCheck, async function(req, res,next){
 
     getproducts = await axios({
         method : 'get',
@@ -25,7 +26,6 @@ router.get('/', async function(req, res,next){
     categories = getcategories?.data?.data?.categories;
     brands = getbrands?.data?.data?.brands;
     products = getproducts?.data?.data?.products
-    console.log( products.length )
     res.render('products', { products : products, categories : categories, brands : brands })
 })
 

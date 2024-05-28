@@ -28,5 +28,21 @@ module.exports = {
       jwt.verify( req.headers.authorization.split(' ')[1], process.env.TOKEN_SECRET, ( err,valid ) => 
       { id = valid.UserId })
       return id
+    },
+
+    loginAdmin : (token) => {
+      let result;
+      jwt.verify(token, process.env.TOKEN_SECRET, ( err,valid ) => {
+        if(err){ res.status(401).json({ status : "error", statusCode : 401, data : { result : err.message } }) }
+        valid.UserRoleId == 1 ? result = true : result = false;
+      }) 
+      return result;  
+    },
+
+    cookieCheck : (req ,res ,next) => {
+      if(!req.signedCookies['token']) {
+        res.redirect('/');return;
+      }
+      else{next()}
     }
 }

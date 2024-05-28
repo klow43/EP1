@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios');
+const { cookieCheck } = require('../services/middleware');
 
 
-router.get('/', async function (req, res, next){
+router.get('/', cookieCheck, async function (req, res, next){
 
     getUsers = await axios({
         method : 'get',

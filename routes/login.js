@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const axios = require('axios')
+axios.default.baseURL = 'http://localhost:3000/admin';
+const { loginAdmin } = require('../services/middleware');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,8 +20,19 @@ router.post('/', async function(req, res,next){
       password : password
     }
   }).catch(err => console.log(err.message));
-  if(result?.data.status === 'success'){ res.redirect('admin/products')}
-  else{let err = 'err'; res.render('login', { err })}
+
+  if(loginAdmin(result?.data?.data?.token) == true){ 
+    const token = result?.data?.data?.token; 
+
+    //set token into axios automatically being provided with every axios call(session restricted)
+    axios.defaults.headers.common['Authorization'] =  `Bearer ${token}`;
+
+    //create cookie and sign if successful, maxAge less than jwt token.
+    res.cookie('token', 'admin', {signed:true, maxAge: 7100000});
+
+    res.redirect('admin/products')
+  }
+  else{ let err = 'unathorized'; res.render('login', { err } ) }
 })
 
 module.exports = router;
