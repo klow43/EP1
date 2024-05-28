@@ -20,9 +20,9 @@ router.get('/', isUser, async function (req, res, next){
     res.status(200).json({ status : "success", statusCode : 200, data : { result : "Products found", Products : cart[0]?.Products }});
 });
 
-//req body = productid, quantity, unit price
+//req body = productid, quantity, unitPrice
 router.post('/', isUser, async function (req,res, next){ 
-    let data, cartid, membership,created,result;
+    let data, cartid, membership;
     let userid = UserId(req)
     let product = req.body; 
     try{ 
