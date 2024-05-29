@@ -11,7 +11,7 @@
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="name" class="form-label">Name</label>
-                            <input id="name" type="text" class="form-control" aria-label="name" name="name">
+                            <input id="name" type="text" class="form-control" aria-label="name" name="name" required>
                         </div>
                         <div class="form-check ms-2">
                             <input id="deleted" class="form-check-input" type="checkbox" value="1" id="deletedAt" name="deletedAt">
@@ -20,24 +20,24 @@
                     </div>
                     <div class="col-12">
                         <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="description" aria-label="description" name="description">
+                        <input type="text" class="form-control" id="description" aria-label="description" name="description" required>
                     </div>
                     <div class="col-4 input-group">
                         <span class="input-group-text">URL</span>
-                        <input type="url"" class="form-control" id="imgurl" aria-label="image url" name="imgurl">
+                        <input type="url"" class="form-control" id="imgurl" aria-label="image url" name="imgurl" required>
                     </div>
                         <div class="col-4 input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="price" aria-label="price" name="price">
+                            <input type="number" class="form-control" id="price" aria-label="price" name="price" required>
                         </div>
                         <div class="col-4 input-group">
                             <span class="input-group-text">Quantity</span>
-                            <input type="number" class="form-control" id="quantity" aria-label="quantity" name="quantity">
+                            <input type="number" class="form-control" id="quantity" aria-label="quantity" name="quantity" required>
                         </div>
                     <div class="row g-3">
                         <div class="col-6">
                             <label for="brand" class="form-label">Brand</label>
-                            <select id="brand" name="brandid" class="form-select">
+                            <select id="brand" name="brandid" class="form-select" required>
                                 <option value="" selected>Select Brand</option>
                                 <%brands.forEach(brand =>{%>
                                     <option id="brandOption" value="<%=brand.id%>"><%=brand.Brand%></option>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-6">
                             <label for="categories" class="form-label">Category</label>
-                            <select id="categories" name="categoryid" class="form-select">
+                            <select id="categories" name="categoryid" class="form-select" required>
                                 <option value="" selected>Select Category</option>
                                 <%categories.forEach(category =>{%>
                                     <option id="categoryOption" value="<%=category.id%>"><%=category.Category%></option>
