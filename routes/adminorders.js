@@ -19,7 +19,7 @@ router.get('/', cookieCheck, async function (req, res, next){
 
     products = getorders?.data?.data?.result
     statuses = getStatuses?.data?.data?.result
-    let orders = [...new Map(products.map(x => [x.OrderId, x])).values()]
+    let orders = [...new Map(products.map(x => [x.orderId, x])).values()]
         res.render('orders', { products : products, statuses : statuses, orders : orders})
 });
 

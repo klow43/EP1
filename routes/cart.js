@@ -51,15 +51,16 @@ router.post('/checkout/now', isUser, async function (req, res, next){
         membership = await membershipServices.getUserMembership(userid);
         quantity = membership.quantity
 
-    //create array with Products,update for bulkCreate order.
+    //create array for bulkCreate order.
         let cartupdate = cart[0].Products.map(product => { 
-            product.Quantity = product.CartProduct.quantity
-            product.membershipstatus = membership.Membership.Membership
-            product.product = product.name
-            product.OrderId = orderid,
-            product.discountUnitPrice = product.CartProduct.discountUnitPrice,
-            quantity += product.Quantity
-            return product;
+            let obj = {};
+            obj.quantity = product.CartProduct.quantity
+            obj.membershipstatus = membership.Membership.Membership
+            obj.product = product.name
+            obj.orderId = orderid,
+            obj.discountUnitPrice = product.CartProduct.discountUnitPrice,
+            quantity += obj.quantity
+            return obj;
         })
 
     //create order
@@ -76,7 +77,7 @@ router.post('/checkout/now', isUser, async function (req, res, next){
     let userorder = order.map(orders => {
         let newValue = {}
         newValue.UserId = userid
-        newValue.OrderId = orders.Id
+        newValue.OrderId = orders.id
         return newValue;
     });
 
@@ -110,5 +111,5 @@ router.delete('/', isUser, async function (req, res, next){
         res.status(400).json({ status : "error", statusCode : 400, data : { result : "No product of id in cart."}}) : 
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "Product removed from cart."}})
 });
-
-module.exports = router; 
+  
+module.exports = router;  

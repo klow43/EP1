@@ -2,7 +2,7 @@
         <% orders.forEach(order => { %>
             <div id="orderDiv" class="mt-5">
                 <div id="orderSum" class="row text-center mt-2 pt-3">
-                    <p class="col">OrderId : <%=order.OrderId%></p>
+                    <p class="col">OrderId : <%=order.orderId%></p>
                     <p class="col">Membership : <%=order.membershipstatus%></p>
                     <p class="col">Created : <%=order.createdAt%></p>
                     <p class="col">Updated : <%=order.updatedAt%></p>
@@ -16,10 +16,10 @@
                     <p class="col fw-bold">Quantity</p>
                     <p class="col fw-bold">Price</p>
                 </div>
-                <% products.forEach(product => { if(product.OrderId == order.OrderId){%>
+                <% products.forEach(product => { if(product.orderId == order.orderId){%>
                     <div id="productsItem" class="row text-center mt-1">
                         <p class="col"><%=product.product%></p>
-                        <p class="col"><%=product.Quantity%></p>
+                        <p class="col"><%=product.quantity%></p>
                         <p class="col"><%=product.discountUnitPrice%></p>
                     </div>
                         <%}%>
