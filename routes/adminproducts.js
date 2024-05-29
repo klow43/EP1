@@ -71,7 +71,7 @@ router.post('/new', async function(req,res,next){
 
 router.delete('/', async function(req,res,next){
     let id = req.body.id;
-    console.log(id)
+
     product = await axios({
         method : 'delete',
         url : 'http://localhost:3000/products',
@@ -82,5 +82,4 @@ router.delete('/', async function(req,res,next){
     res.end()
 })
 
-//change products
 module.exports = router;
