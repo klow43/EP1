@@ -42,7 +42,7 @@ class OrderService {
             Order,t,
             { 
                 individualHooks : true, 
-                fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice', 'userid']
+                fields : ['orderId', 'membershipstatus', 'product', 'quantity', 'discount', 'discountUnitPrice', 'userid']
             },
         ).catch( err => { console.log(err); throw err })
     }
