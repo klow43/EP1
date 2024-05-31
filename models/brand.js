@@ -1,6 +1,6 @@
 module.exports = ( sequelize, Sequelize ) => {
     const Brand = sequelize.define('Brand', {
-        Brand : {
+        brand : {
             type : Sequelize.DataTypes.STRING(100),
             allowNull : false,
             unique : true,
@@ -10,4 +10,4 @@ module.exports = ( sequelize, Sequelize ) => {
         Brand.hasMany( models.ProductBrands, { onDelete : 'RESTRICT' })
     };
     return Brand 
-};  
+}; 

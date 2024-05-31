@@ -1,5 +1,0 @@
-{"data" : [
-    { "query" : "INSERT INTO orderstatuses(id,Status) VALUES(1,'In Progress')" },
-    { "query" : "INSERT INTO orderstatuses(id,Status) VALUES(2,'Ordered')" },
-    { "query" : "INSERT INTO orderstatuses(id,Status) VALUES(3,'Completed')" }
-]} 

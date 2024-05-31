@@ -1,4 +1,0 @@
-{"data" : [
-    { "query" : "INSERT INTO Roles(id,Role) VALUES(1,'Admin')" },
-    { "query" : "INSERT INTO Roles(id,Role) VALUES(2,'User')" }
-]}

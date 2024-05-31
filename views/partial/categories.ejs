@@ -4,7 +4,7 @@
     </div>
     <% categories.forEach(categories => { %>
     <div id="itemRow" class="row text-center mt-3">
-        <div class="col"><p><%=categories.Category%></p></div>
+        <div class="col"><p><%=categories.category%></p></div>
         <div class="col">
             <button id="deletebtn" class="rounded" onclick="deleteCategory(<%=categories.id%>)"><i class="bi bi-fire"></i></button>
             <button id="updatebtn" type="button" class="rounded" data-bs-toggle="modal" data-bs-target="#multiModal"  data-bs-whatever="<%=JSON.stringify(categories)%>"><i class="bi bi-brush"></i></button>

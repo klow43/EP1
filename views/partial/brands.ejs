@@ -4,7 +4,7 @@
     </div>
     <% brands.forEach(brand => { %>
     <div id="itemRow" class="row text-center mt-3">
-        <div class="col"><p><%=brand.Brand%></p></div>
+        <div class="col"><p><%=brand.brand%></p></div>
         <div class="col">
             <button id="deletebtn" class="rounded" onclick="deleteBrand(<%=brand.id%>)"><i class="bi bi-fire"></i></button>
             <button id="updatebtn" class="rounded" data-bs-toggle="modal" data-bs-target="#multiModal"  data-bs-whatever="<%=JSON.stringify(brand)%>"><i class="bi bi-brush"></i></button>
