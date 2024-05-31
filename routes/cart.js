@@ -10,6 +10,7 @@ const membershipServices = new MembershipServices(db);
 const { isUser, UserId } = require('../services/middleware');
 const randomstring = require('randomstring');
 
+
 //only users all endpoints.
 router.get('/', isUser, async function (req, res, next){
     let userid = UserId(req)
@@ -43,16 +44,16 @@ router.post('/', isUser, async function (req,res, next){
 router.post('/checkout/now', isUser, async function (req, res, next){
     let orderid = randomstring.generate({ length : 8 })
     let userid = UserId(req)
-    let cart, membership,order,finish; 
+    let cart, membership,order,finish, cartupdate; 
     let quantity = 0; 
     try{
     //get cart of user, Products, discount,cartid, membership
-        cart = await cartServices.getCart( userid);
-        membership = await membershipServices.getUserMembership(userid);
+        cart = await cartServices.getCart( userid );
+        membership = await membershipServices.getUserMembership( userid );
         quantity = membership.quantity
 
     //create array for bulkCreate order.
-        let cartupdate = cart[0].Products.map(product => { 
+        cartupdate = cart[0].Products.map(product => { 
             let obj = {};
             obj.quantity = product.CartProduct.quantity
             obj.membershipstatus = membership.Membership.Membership
@@ -63,15 +64,19 @@ router.post('/checkout/now', isUser, async function (req, res, next){
             return obj;
         })
 
-    //create order
-        order = await orderServices.createOrder( cartupdate )
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
+    //create transaciton for all steps creating an order/update memebership/"remove" items from cart
+    const t = await db.sequelize.transaction();
     try{
+    
+    //create order
+    order = await orderServices.createOrder( cartupdate, { transaction : t } )
+   
     //remove cartitems from cart(softdelete, Processed = 1)
-    await cartServices.checkoutCart( cart[0].id )
-
+    await cartServices.checkoutCart( cart[0].id, t )
+  
     //update membership quantity(hook to change membership)
-    await membershipServices.updateUserQuantity( quantity, userid )
+    await membershipServices.updateUserQuantity( quantity, userid, t )
 
     //create array for bulkCreate userorder
     let userorder = order.map(orders => {
@@ -82,8 +87,10 @@ router.post('/checkout/now', isUser, async function (req, res, next){
     });
 
     //create userorder
-    finish = await orderServices.createUserOrder( userorder )
-   }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
+    finish = await orderServices.createUserOrder( userorder, { transaction : t } )
+
+    t.commit()
+   }catch(err){ t.rollback(); console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
     res.status(200).json({ status : "success", statusCode : 200, data : { result : `Order has been created!`} })
 });
  

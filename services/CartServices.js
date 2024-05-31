@@ -34,9 +34,9 @@ class CartService {
     }
 
     async checkoutCart(cartid, t){
-        return await this.CartProducts.update({
-            Processed : 1
-        }, { where : { CartId : cartid} }
+        return await this.CartProducts.update(
+            { Processed : 1 }, 
+            { transaction : t, where : { CartId : cartid } }
         ).catch( err => { console.log(err); return err })
     }
 

@@ -37,18 +37,19 @@ class OrderService {
     }     
 
     //create order, create orderprogress/orderStatus relation(default 1 - "In Progress"), create userorders relation.
-    async createOrder(Order){
+    async createOrder(Order, t){
         return await this.Order.bulkCreate(
-            Order,
-            { individualHooks : true, 
+            Order,t,
+            { 
+                individualHooks : true, 
                 fields : ['OrderId', 'membershipstatus', 'product', 'Quantity', 'discount', 'discountUnitPrice', 'userid']
             },
         ).catch( err => { console.log(err); throw err })
     }
 
-    async createUserOrder(Order){
+    async createUserOrder(Order, t){
         return await this.UserOrders.bulkCreate(
-            Order,
+            Order,t,
             { fields : ['OrderId', 'UserId'] }
         ).catch( err => { console.log(err); return err })
     }

@@ -12,10 +12,10 @@ class MembershipService {
         ).catch( err => { console.log(err); return err })
     }
 
-    async updateUserQuantity(quantity, userid){
+    async updateUserQuantity(quantity, userid, t){
         return await this.UserMembership.update({
             quantity : quantity,
-            }, { where : { UserId : userid }, individualHooks : true }
+            }, { transaction : t, where : { UserId : userid }, individualHooks : true }
         ).catch( err => { console.log(err); return err })
     }
 
