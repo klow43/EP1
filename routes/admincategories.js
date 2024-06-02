@@ -4,7 +4,7 @@ const axios = require('axios');
 const { cookieCheck } = require('../services/middleware');
 
 router.get('/', cookieCheck, async function(req, res,next){
-
+    // #swagger.ignore = true
     getcategories = await axios({
         method : 'get',
         url : 'http://localhost:3000/categories'
@@ -16,6 +16,7 @@ router.get('/', cookieCheck, async function(req, res,next){
 
 //if !id - post, else put
 router.post('/', async function(req,res,next){
+    // #swagger.ignore = true
     let category = req.body.categories;
     if(!req.body.id){
         create = await axios({
@@ -40,6 +41,7 @@ router.post('/', async function(req,res,next){
 })
 
 router.delete('/', async function(req,res,next){
+    // #swagger.ignore = true
     let id = req.body.id;
     console.log(id)
     product = await axios({

@@ -6,11 +6,13 @@ const { loginAdmin } = require('../services/middleware');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // #swagger.ignore = true
   let err;
   res.render('login', { err });
 });
 
 router.post('/', async function(req, res,next){
+  // #swagger.ignore = true
   let { password, name } = req.body;
   result = await axios({
     method : 'post',

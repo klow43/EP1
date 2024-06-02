@@ -5,7 +5,7 @@ const { cookieCheck } = require('../services/middleware');
 
 
 router.get('/', cookieCheck, async function (req, res, next){
-
+    // #swagger.ignore = true
     getUsers = await axios({
         method : 'get',
         url : 'http://localhost:3000/users'
@@ -17,6 +17,7 @@ router.get('/', cookieCheck, async function (req, res, next){
 
 
 router.post('/', async function(req, res, next){
+    // #swagger.ignore = true
     user = req.body;
     alter = await axios({
         method : 'put',
@@ -29,6 +30,7 @@ router.post('/', async function(req, res, next){
 
 
 router.delete('/', async function(req,res,next){
+    // #swagger.ignore = true
     let id = req.body.id;
     product = await axios({
         method : 'delete',

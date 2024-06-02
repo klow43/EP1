@@ -4,8 +4,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
 
-//
+//api routers
 const loginRouter = require('./routes/login');
 const initRouter = require('./routes/init');
 const authRouter = require('./routes/auth');
@@ -18,7 +20,7 @@ const cartRouter = require('./routes/cart');
 const userRouter = require('./routes/users');
 const membershipRouter = require('./routes/membership');
 
-//admin endpoints
+//admin routers
 const adminProductRouter = require('./routes/adminproducts');
 const adminBrandsRouter = require('./routes/adminbrands');
 const adminCategoriesRouter = require('./routes/admincategories');
@@ -43,7 +45,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap-icons'));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+//api endpoints
 app.use('/', loginRouter);
 app.use('/init', initRouter )
 app.use('/auth', authRouter);

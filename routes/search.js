@@ -6,6 +6,14 @@ const searchServices = new SearchServices(db);
 
 
 router.post('/', async function (req, res, next){
+     // #swagger.tags = ['Search']
+    // #swagger.description = 'Searches products by partial product name/brand or category(partial name only product)'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/search' }
+    }*/   
     let search = req.body;
     let data;
     try{

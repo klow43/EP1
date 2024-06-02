@@ -4,7 +4,7 @@ const axios = require('axios');
 const { cookieCheck } = require('../services/middleware');
 
 router.get('/',cookieCheck, async function (req, res, next){
-
+    // #swagger.ignore = true
     getmemberships = await axios({
         method : 'get',
         url : 'http://localhost:3000/memberships'
@@ -16,6 +16,7 @@ router.get('/',cookieCheck, async function (req, res, next){
 
 //if !id - POST, else PUT
 router.post('/', async function(req,res,next){
+    // #swagger.ignore = true
     let membership = req.body;
 
     if(!req.body.id){
@@ -48,6 +49,7 @@ router.post('/', async function(req,res,next){
 })
 
 router.delete('/', async function(req,res,next){
+    // #swagger.ignore = true
     let id = req.body.id;
     product = await axios({
         method : 'delete',

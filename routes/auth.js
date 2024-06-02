@@ -11,6 +11,14 @@ const jsonParser = bodyParser.json();
 
 //req.body = name(username or email), password
 router.post('/login', async function(req, res, next) {
+    // #swagger.tags = ['Login']
+    // #swagger.description = 'Logs user or admin into application, provides JWT token for 2 hours'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        in : 'body',
+        'schema' : { $ref : '#/definitions/login' }
+    }*/
     let user = req.body;
     let userdb = await userService.getLogin(user)
     let token;
@@ -30,6 +38,14 @@ router.post('/login', async function(req, res, next) {
  
 //req.body = firstName, lastName, email, password, phone, userName, address
 router.post('/register',jsonParser, async function(req, res, next) { 
+    // #swagger.tags = ['Registration']
+    // #swagger.description = 'Registers new user to the application'
+    // #swagger.produces = ['json']   
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        in : 'body',
+        'schema' : { $ref : '#/definitions/register' }
+    }*/
     const newUser = req.body;
     try{ 
         bcrypt.hash(newUser.password, 12, async function (err, hash) { 

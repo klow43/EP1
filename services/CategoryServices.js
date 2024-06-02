@@ -17,7 +17,7 @@ class CategoryService {
 
     async createCategory(Category){
         return await this.Category.create({
-            Category : Category
+            category : Category
         })
         .catch( err => { console.log(err); return err})
     }
@@ -25,7 +25,7 @@ class CategoryService {
         //only alter Categoryname of id.
     async alterCategory(Categoryid, newCategory){
         return await this.Category.update({
-            Category : newCategory
+            category : newCategory
         }, { where : { id: Categoryid }})
         .catch( err => { console.log(err); return err })
     }

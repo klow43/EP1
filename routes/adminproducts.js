@@ -7,7 +7,7 @@ let categories;
 let brands;
 
 router.get('/', cookieCheck, async function(req, res,next){
-
+    // #swagger.ignore = true
     getproducts = await axios({
         method : 'get',
         url : 'http://localhost:3000/products'
@@ -30,6 +30,7 @@ router.get('/', cookieCheck, async function(req, res,next){
 })
 
 router.post('/', async function(req,res,next){
+    // #swagger.ignore = true
     let search = req.body; 
     item = search.item;
     type = search.type;
@@ -47,6 +48,7 @@ router.post('/', async function(req,res,next){
 
 //if !id - POST else put
 router.post('/new', async function(req,res,next){
+    // #swagger.ignore = true
     let product = req.body;
 
     if(!req.body.id){
@@ -70,6 +72,7 @@ router.post('/new', async function(req,res,next){
 
 
 router.delete('/', async function(req,res,next){
+    // #swagger.ignore = true
     let id = req.body.id;
 
     product = await axios({

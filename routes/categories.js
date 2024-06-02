@@ -6,6 +6,9 @@ const categoryService = new CategoryService(db);
 const { isAdmin } = require('../services/middleware');
 
 router.get('/', async function(req, res, next) {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Gets list of all categories'
+    // #swagger.produces = ['json']
     let categories;
     try{
         categories = await categoryService.getCategories();
@@ -17,6 +20,15 @@ router.get('/', async function(req, res, next) {
 });
 
 router.get('/:categoryid', async function(req, res, next){
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Gets list of category of id'
+    // #swagger.produces = ['json']
+    	/* #swagger.parameters['categoryid'] = {
+		"name" : "categoryid",
+		"required" : true,
+		"in" : "path",
+		"type" : "integer"
+	} */	
     let categoryid = req.params.categoryid;
     let category;
     try{
@@ -29,17 +41,35 @@ router.get('/:categoryid', async function(req, res, next){
 })
 
 router.post('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Creates a new category'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/postcategory' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
     let result;
     if(!req.body?.category || req.body?.category == "" || req.body?.category == null){res.status(400).json({ status : "error", statusCode : 400, data : { result : "category must be provided." }}); return;}
     try{
        result = await categoryService.createCategory(req.body.category); 
     }catch(err){console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Unable to create category."}}); return;}
     result.name == 'SequelizeUniqueConstraintError' ?
-        res.status(400).json({ status : "error", statusCode : 400, data : { result : "Category already exists."}}) :
+        res.status(400).json({ status : "error", statusCode : 400, data : { result : "Category already exists."}})  :
             res.status(200).json({ status : "success", statusCode : 200, data : { result : "Category created."}})       
 });
 
 router.put('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Alters existing category of provided id'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/altercategory' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}  
     let result;    
     if(!req.body?.id || req.body?.id == null || req.body?.id == "" || !req.body?.category){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id and category must be provided." }}); return;}     
     try{
@@ -51,6 +81,15 @@ router.put('/', isAdmin, async function(req, res, next) {
 
 //table has restrict, cannot delete if related to a product.
 router.delete('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Deletes category of provided id'
+    // #swagger.produces = ['json'] 
+        /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}     
     let result;
     if(!req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided, and be a number." }}); return; }
     try{

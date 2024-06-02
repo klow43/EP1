@@ -5,7 +5,7 @@ const { cookieCheck } = require('../services/middleware');
 
 
 router.get('/', cookieCheck, async function (req, res, next){
-    
+    // #swagger.ignore = true
 
     getorders = await axios({
         method : 'get',
@@ -25,7 +25,7 @@ router.get('/', cookieCheck, async function (req, res, next){
 
 
 router.post('/', async function(req, res, next){
-
+    // #swagger.ignore = true
     changeOrder = await axios({
         method : 'put',
         url : 'http://localhost:3000/orders',

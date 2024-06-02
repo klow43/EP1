@@ -3,9 +3,12 @@ var router = express.Router();
 const db = require('../models');
 const MembershipServices = require('../services/MembershipServices');
 const membershipService = new MembershipServices(db);
-const { isAdmin, isUser } = require('../services/middleware');
+const { isAdmin } = require('../services/middleware');
 
 router.get('/', async function ( req, res, next) {
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = 'Gets all memberships'
+    // #swagger.produces = ['json']
     let memberships;
     try{
         memberships = await membershipService.getMemberships();
@@ -14,6 +17,15 @@ router.get('/', async function ( req, res, next) {
 })
 
 router.get('/:membershipid', async function ( req, res, next ) {
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = 'Gets membership of provided id'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['membershipid'] = {
+		"name" : "membershipid",
+		"required" : true,
+		"in" : "path",
+		"type" : "integer"
+	} */	
     let membershipid = req.params.membershipid;
     let membership;
     try{
@@ -26,6 +38,15 @@ router.get('/:membershipid', async function ( req, res, next ) {
 
 //req.body = name, minItems, maxItems, discount
 router.post('/', isAdmin, async function ( req, res, next ) {
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = 'Creates new membership'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/postmembership' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
     let newmembership = req.body;
     try{
         await membershipService.createMembership(newmembership)
@@ -37,6 +58,15 @@ router.post('/', isAdmin, async function ( req, res, next ) {
 
 //req.body = id ++ 
 router.put('/', isAdmin, async function ( req, res, next ) {
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = 'Creates new membership'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/altermembership' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}    
     let membership = req.body;
     let result;
     try{
@@ -49,6 +79,15 @@ router.put('/', isAdmin, async function ( req, res, next ) {
 
 //req.body = id
 router.delete('/', isAdmin,  async function ( req, res, next ){
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = 'delete membership of provided id'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}   
     let membershipid = req.body?.id;
     if(!req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided, and be a number." }}); return; }
     let result;

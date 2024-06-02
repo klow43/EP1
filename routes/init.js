@@ -5,6 +5,9 @@ const InsertProducts = require('../databasevalue/database');
 
 //checks db, if users table empty will populate.
 router.post('/', async function(req, res, next) {
+    // #swagger.tags = ['Init']
+    // #swagger.description = 'Populates initial products to db'
+    // #swagger.produces = ['json']
 let result;
    try{
      result = await InsertProducts();  

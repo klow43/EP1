@@ -16,14 +16,14 @@ class BrandService {
     }
 
     async createBrand(Brand){
-        return await this.Brand.create({ Brand : Brand })
+        return await this.Brand.create({ brand : Brand })
         .catch( err => { console.log(err); return err })
     }
 
     //only alter brand names of id.
     async alterBrand(Brand){
         return await this.Brand.update({
-            Brand : Brand.brand
+            brand : Brand.brand
         }, { where : { id : Brand.id }
         }).catch( err => { console.log(err); throw err })
     }

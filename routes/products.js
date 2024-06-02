@@ -8,6 +8,9 @@ const productRelationServices = new ProductRelationServices(db);
 const { isAdmin } = require('../services/middleware');
 
 router.get('/',async function(req, res, next) {
+    // #swagger.tags = ['Products']
+    // #swagger.description = 'Gets list of all products'
+    // #swagger.produces = ['json']
     let products;
     try{
         products = await productServices.getAllProducts();
@@ -18,6 +21,15 @@ router.get('/',async function(req, res, next) {
 })
 
 router.get('/:productid', async function(req, res, next) {
+    // #swagger.tags = ['Products']
+    // #swagger.description = 'Gets product of provided id'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['productid'] = {
+		"name" : "productid",
+		"required" : true,
+		"in" : "path",
+		"type" : "integer"
+	} */	
 let id = req.params.productid;
 try{
     product = await productServices.getProduct(id);
@@ -29,6 +41,15 @@ product[0] == null ?
 
  //product includes brandid and categoryid from frontend(dropdown)
 router.post('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Products']
+    // #swagger.description = 'Creates new product'
+    // #swagger.produces = ['json']
+       /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/postproduct' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
     let product = req.body;
     try {
         result = await productServices.createProduct(product);  
@@ -46,6 +67,15 @@ router.post('/', isAdmin, async function(req, res, next) {
 
 // product includes brandid and categoryid from frontend
 router.put('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Products']
+    // #swagger.description = 'Alters existing product'
+    // #swagger.produces = ['json']
+       /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/alterproduct' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
         let product = req.body;
         if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
         let result;
@@ -59,6 +89,15 @@ router.put('/', isAdmin, async function(req, res, next) {
 })
 
 router.delete('/', isAdmin, async function(req, res, next) {
+    // #swagger.tags = ['Products']
+    // #swagger.description = 'Soft deletes product of provided id(sets Processed : 1)'
+    // #swagger.produces = ['json']
+       /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
     if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
     let id = req.body.id;
     let result;

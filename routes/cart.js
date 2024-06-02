@@ -13,6 +13,10 @@ const randomstring = require('randomstring');
 
 //only users all endpoints.
 router.get('/', isUser, async function (req, res, next){
+    // #swagger.tags = ['Cart']
+    // #swagger.description = 'Gets cart of user'
+    // #swagger.produces = ['json'] 
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
     let userid = UserId(req)
     let cart;
     try{
@@ -23,6 +27,15 @@ router.get('/', isUser, async function (req, res, next){
 
 //req body = productid, quantity, unitPrice
 router.post('/', isUser, async function (req,res, next){ 
+    // #swagger.tags = ['Cart']
+    // #swagger.description = 'Adds product to users shopping cart'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/addtocart' },
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
     let data, cartid, membership;
     let userid = UserId(req)
     let product = req.body; 
@@ -42,6 +55,10 @@ router.post('/', isUser, async function (req,res, next){
 });
 
 router.post('/checkout/now', isUser, async function (req, res, next){
+    // #swagger.tags = ['Cart']
+    // #swagger.description = 'Checks out users cart and creates order.'
+    // #swagger.produces = ['json']
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
     let orderid = randomstring.generate({ length : 8 })
     let userid = UserId(req)
     let cart, membership,order,finish, cartupdate; 
@@ -96,6 +113,15 @@ router.post('/checkout/now', isUser, async function (req, res, next){
  
 //req body = productid,quantity
 router.put('/', isUser,  async function (req,res, next){
+    // #swagger.tags = ['Cart']
+    // #swagger.description = 'Alters a product in cart/decrement'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/altercart' },
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
     let userid = UserId(req)
     let product = req.body
     try{
@@ -107,6 +133,15 @@ router.put('/', isUser,  async function (req,res, next){
 
 //req.body = productid
 router.delete('/', isUser, async function (req, res, next){
+    // #swagger.tags = ['Cart']
+    // #swagger.description = 'Deletes item from cart'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/deletecart' },
+    }*/
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
     let userid = UserId(req)
     let productid = req.body?.productid;
     if(!req.body.productid){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "productid must be provided."} }); return;}
