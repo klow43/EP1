@@ -40,7 +40,7 @@ class MembershipService {
 
     async createMembership(Membership){
         return await this.Membership.create({
-            Membership : Membership.name,
+            Membership : Membership.Membership,
             minItems : Membership.minItems,
             maxItems : Membership.maxItems,
             discount : Membership.discount

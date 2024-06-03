@@ -10,7 +10,7 @@ let Memberships = [ {'id' : 1, 'Membership' : 'Bronze', 'minItems' : 0, 'maxItem
 async function InsertProducts(){ 
 let dbEmpty = await databaseService.checkDatabase();
 
-if(dbEmpty.length == 0){
+if(dbEmpty == null){
     //get products
     let apicall = await fetch('http://backend.restapi.co.za/items/products')  
     .then((response) => response.json())

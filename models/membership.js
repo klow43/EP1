@@ -5,7 +5,7 @@ module.exports = ( sequelize, Sequelize ) => {
             allowNull : false, 
             validate : {
                  notNull : { msg : "Membership cannot be null."},
-                 isAlpha : { msg : "lastName must consist of only letters." }
+                 isAlpha : { msg : "Membership must consist of only letters." }
             } 
         },
         minItems : {
