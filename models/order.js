@@ -17,13 +17,9 @@ module.exports = ( sequelize, Sequelize ) => {
             beforeCreate : async (Order, err) => {
                     value = await sequelize.models.Product.findOne({ where : { name : Order.product } })
                     if ( value.quantity < Order.quantity ) { throw new Error('Quantity over stock.') }
-            },
-            //create orderprogress/subtract quantity ordered.
-            afterCreate : async (Order, options) => {
-                await sequelize.models.OrderProgress.create({ OrderId : Order.id });
-                await sequelize.models.Product.decrement({ quantity : Order.quantity },{ where : { name : Order.product} }) 
-                await sequelize.models.Product.update({ deletedAt : 1 },{ where : { quantity : 0 } })     
-                }
+                    await sequelize.models.Product.decrement({ quantity : Order.quantity },{ where : { name : Order.product} }) 
+                    await sequelize.models.Product.update({ deletedAt : 1 },{ where : { quantity : 0 } })    
+                },
             }
         }, 
     ); 
@@ -32,4 +28,4 @@ module.exports = ( sequelize, Sequelize ) => {
         Order.hasMany( models.UserOrders )
     }
     return Order 
-}  
+}   
