@@ -9,6 +9,7 @@
                     <p class="col">Status : <%=order.OrderProgress.OrderStatus.Status%></p>
                     <div class="col">
                         <button id="updatebtn" type="button" class="rounded" data-bs-toggle="modal" data-bs-target="#ordersModal" aria-label="changeOrderStatus" data-bs-whatever="<%=JSON.stringify(order)%>"><i class="bi bi-brush"></i></button>
+                        <button id="deletebtn" class="rounded" onclick="deleteOrder(<%=JSON.stringify(order)%>)" ><i class="bi bi-fire"></i></button>
                     </div>  
                 </div>
                 <div id="productsHeader" class="row text-center mt-1">
