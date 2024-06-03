@@ -21,9 +21,9 @@ router.get('/', async function(req, res, next) {
 
 router.get('/:categoryid', async function(req, res, next){
     // #swagger.tags = ['Categories']
-    // #swagger.description = 'Gets list of category of id'
+    // #swagger.description = 'Gets category of provided id'
     // #swagger.produces = ['json']
-    	/* #swagger.parameters['categoryid'] = {
+    /* #swagger.parameters['categoryid'] = {
 		"name" : "categoryid",
 		"required" : true,
 		"in" : "path",
@@ -49,7 +49,7 @@ router.post('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/postcategory' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     if(!req.body?.category || req.body?.category == "" || req.body?.category == null){res.status(400).json({ status : "error", statusCode : 400, data : { result : "category must be provided." }}); return;}
     try{
@@ -69,7 +69,7 @@ router.put('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/altercategory' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}  
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}  
     let result;    
     if(!req.body?.id || req.body?.id == null || req.body?.id == "" || !req.body?.category){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id and category must be provided." }}); return;}     
     try{
@@ -82,14 +82,14 @@ router.put('/', isAdmin, async function(req, res, next) {
 //table has restrict, cannot delete if related to a product.
 router.delete('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Categories']
-    // #swagger.description = 'Deletes category of provided id'
+    // #swagger.description = 'Deletes category of provided id, ondelete - restrict.'
     // #swagger.produces = ['json'] 
         /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/delete' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}     
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}     
     let result;
     if(!req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided, and be a number." }}); return; }
     try{

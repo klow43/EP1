@@ -46,7 +46,7 @@ router.post('/', isAdmin, async function ( req, res, next ) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/postmembership' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let newmembership = req.body;
     try{
         await membershipService.createMembership(newmembership)
@@ -66,7 +66,7 @@ router.put('/', isAdmin, async function ( req, res, next ) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/altermembership' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}    
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}    
     let membership = req.body;
     let result;
     try{
@@ -80,14 +80,14 @@ router.put('/', isAdmin, async function ( req, res, next ) {
 //req.body = id
 router.delete('/', isAdmin,  async function ( req, res, next ){
     // #swagger.tags = ['Memberships']
-    // #swagger.description = 'delete membership of provided id'
+    // #swagger.description = 'delete membership of provided id, ondelete - restrict.'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/delete' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}   
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}   
     let membershipid = req.body?.id;
     if(!req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided, and be a number." }}); return; }
     let result;
