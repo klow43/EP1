@@ -100,8 +100,8 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const route = ['./app.js'];
+const route = ['../app.js'];
 
 swaggerAutogen(outputFile, route, doc).then(() => {
-    require('./bin/www')
+    require('../bin/www')
 })
