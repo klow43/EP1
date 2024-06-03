@@ -4,7 +4,9 @@ const axios = require('axios');
 const { cookieCheck } = require('../services/middleware');
 
 router.get('/', cookieCheck, async function(req, res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Category']
+    // #swagger.description = 'Gets list of categories'
+    // #swagger.produces = ['json']
     getcategories = await axios({
         method : 'get',
         url : 'http://localhost:3000/categories'
@@ -16,7 +18,14 @@ router.get('/', cookieCheck, async function(req, res,next){
 
 //if !id - post, else put
 router.post('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Category']
+    // #swagger.description = 'Creates new category or alters existing category, if id - put request, !id - post'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/altercategory' }
+    }*/
     let category = req.body.categories;
     if(!req.body.id){
         create = await axios({
@@ -41,9 +50,15 @@ router.post('/', async function(req,res,next){
 })
 
 router.delete('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Category']
+    // #swagger.description = 'Deletes category of provided id, ondelete - restrict.'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
     let id = req.body.id;
-    console.log(id)
     product = await axios({
         method : 'delete',
         url : 'http://localhost:3000/categories',
@@ -51,7 +66,7 @@ router.delete('/', async function(req,res,next){
             id : id
         }
     }).catch(err => console.log(err?.response?.data));
-    res.redirect('/admin/categories')
+    res.end()
 })
 
 

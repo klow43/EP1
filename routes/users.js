@@ -18,7 +18,7 @@ router.get('/:userid', isAdmin, async function(req, res, next) {
 		"in" : "path",
 		"type" : "integer"
 	} */	
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     let userid = req.params.userid;
     try{
@@ -31,7 +31,7 @@ router.get('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Users']
     // #swagger.description = 'Gets list of users'
     // #swagger.produces = ['json']
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     try{
         result = await userServices.getUsers();
@@ -50,7 +50,7 @@ router.put('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/alteruser' }
     }*/   
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     if(!req.body.id){res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of user must be provided."}}); return;}
     let result;
     let newuser = req.body;
@@ -64,14 +64,14 @@ router.put('/', isAdmin, async function(req, res, next) {
 //req.body = id (cannot delete id of 1, Admin)
 router.delete('/', isAdmin, async function(req, res, next){
     // #swagger.tags = ['Users']
-    // #swagger.description = 'Delete user'
+    // #swagger.description = 'Delete user, original admin cannot be deleted'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/delete' }
     }*/   
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     if(!req.body.id){res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of user must be provided."}}); return;}
     let result;
     let userid = req.body.id;
@@ -93,7 +93,7 @@ router.put('/membership', isAdmin, async function(req, res, next){
         'in' : 'body',
         'schema' : { $ref : '#/definitions/usermembership' }
     }*/   
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     if(!req.body.userid || !req.body.membershipid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "userid and new membershipid must be provided"}});return;}
     let membership = req.body;
     let result;
@@ -115,7 +115,7 @@ router.put('/role', isAdmin, async function(req, res,next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/userrole' }
     }*/   
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     if(!req.body.userid || !req.body.roleid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "userid and new roleid must be provided"}}); return;}
     let role = req.body;
     let result;

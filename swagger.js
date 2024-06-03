@@ -17,8 +17,6 @@ const doc = {
     }
         }
     },
-    security : { User : ['userJWTtoken'] },
-    security : { Admin : ['adminJWTtoken'] },
 
     definitions : {
 
@@ -33,26 +31,26 @@ const doc = {
             $address : 'The ice rank 69'
         },
 
-        postbrand : { $brand : 'Ontario sportswear' },
-        alterbrand : { $id :  1, $brand : 'Ontario sportswear' },
+        postbrand : { $brands : 'Ontario sportswear' },
+        alterbrand : { $id :  1, $brands : 'Ontario sportswear' },
         delete : { $id : 2 },
 
         addtocart : { $productid : 1, $quantity : 2, $unitPrice : 49.99 },
-        altercart : { $productid : 1, quantity : 1 },
+        altercart : { $productid : 1, $quantity : 1 },
         deletecart : { $productid : 1 },
 
-        postcategory : { $category : 'Hockey jerseys'},
-        altercategory : { $category : 'Hockey jerseys', $id : 69 },
+        postcategory : { $categories : 'Hockey jerseys'},
+        altercategory : { $categories : 'Hockey jerseys', $id : 69 },
 
         postmembership : {
-            $name : 'NOSHO member',
+            $membership : 'NOSHO',
             $minItems : 69,
             $maxItems : 100,
             $discount : 60
         },
         altermembership : {
             $id : 1,
-            $name : 'NOSHO member',
+            $membership : 'NOSHO',
             $minItems : 69,
             $maxItems : 100,
             $discount : 60
@@ -77,7 +75,7 @@ const doc = {
             $imgurl : 'https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1'
         },
 
-        search : { $type : 'brand', $search : 'Ontario sportswear' },
+        search : { $type : 'brand', $item : 'Ontario sportswear' },
 
         alteruser : {
             $id : 2,

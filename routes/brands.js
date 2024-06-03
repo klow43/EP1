@@ -42,14 +42,14 @@ router.get('/:brandid', async function(req, res, next){
 //req.body = brand
 router.post('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Brands']
-    // #swagger.description = 'Gets list of all brands'
+    // #swagger.description = 'Creates new brand'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/postbrand' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     if(!req.body?.brand || req.body?.brand == "" || req.body?.brand == null)
         {res.status(400).json({ status : "error", statusCode : 400, data : { result : "brand must be provided." }}); return;}
@@ -63,14 +63,14 @@ router.post('/', isAdmin, async function(req, res, next) {
 
 router.put('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Brands']
-    // #swagger.description = 'Gets brand of specified id'
+    // #swagger.description = 'Alters brand of specififed id'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/alterbrand' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     if(!req.body?.id || req.body?.id == null || req.body?.id == "" || !req.body?.brand){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id and brand must be provided." }}); return; }     
     try{
@@ -83,14 +83,14 @@ router.put('/', isAdmin, async function(req, res, next) {
 //table has restrict, cannot delete if related to a product.
 router.delete('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Brands']
-    // #swagger.description = 'Gets brand of specified id'
+    // #swagger.description = 'Deletes brand of specfied id, ondelete - restrict.'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/delete' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let result;
     if( !req.body.id && typeof(req.body.id) != 'number'){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id must be provided." }}); return;}
     try{

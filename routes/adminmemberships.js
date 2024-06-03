@@ -4,7 +4,9 @@ const axios = require('axios');
 const { cookieCheck } = require('../services/middleware');
 
 router.get('/',cookieCheck, async function (req, res, next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Membership']
+    // #swagger.description = 'Gets list of all memberships'
+    // #swagger.produces = ['json']
     getmemberships = await axios({
         method : 'get',
         url : 'http://localhost:3000/memberships'
@@ -16,7 +18,14 @@ router.get('/',cookieCheck, async function (req, res, next){
 
 //if !id - POST, else PUT
 router.post('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Membership']
+    // #swagger.description = 'Creates new membership or alters existing membership,  if id - put request, !id - post'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/altermembership' }
+    }*/
     let membership = req.body;
 
     if(!req.body.id){
@@ -24,7 +33,7 @@ router.post('/', async function(req,res,next){
             method : 'post',
             url : 'http://localhost:3000/memberships',
             data : {
-                name : membership.membership,
+                Membership: membership.membership,
                 minItems : membership.minItems,
                 maxItems : membership.maxItems,
                 discount : membership.discount
@@ -38,18 +47,25 @@ router.post('/', async function(req,res,next){
             url : 'http://localhost:3000/memberships',
             data : {
                 id : req.body.id,
-                name : membership.membership,
+                Membership : membership.membership,
                 minItems : membership.minItems,
                 maxItems : membership.maxItems,
                 discount : membership.discount
             }
         }).catch(err => console.log(err));
     }
-    res.redirect('/admin/memberships');
+    res.end();
 })
 
 router.delete('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Membership']
+    // #swagger.description = 'Deletes membership of provided id, ondelete - restrict.'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
     let id = req.body.id;
     product = await axios({
         method : 'delete',

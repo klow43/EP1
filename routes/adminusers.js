@@ -5,7 +5,9 @@ const { cookieCheck } = require('../services/middleware');
 
 
 router.get('/', cookieCheck, async function (req, res, next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin User']
+    // #swagger.description = 'Gets list of all users'
+    // #swagger.produces = ['json']
     getUsers = await axios({
         method : 'get',
         url : 'http://localhost:3000/users'
@@ -17,7 +19,14 @@ router.get('/', cookieCheck, async function (req, res, next){
 
 
 router.post('/', async function(req, res, next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin User']
+    // #swagger.description = 'Alters existing user - THIS IS A PUT ENDPOINT-'
+    // #swagger.produces = ['json']
+     /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/alteruser' }
+    }*/
     user = req.body;
     alter = await axios({
         method : 'put',
@@ -30,7 +39,14 @@ router.post('/', async function(req, res, next){
 
 
 router.delete('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin User']
+    // #swagger.description = 'Deletes user of provided id, original admin cannot be deleted'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
     let id = req.body.id;
     product = await axios({
         method : 'delete',

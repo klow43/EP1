@@ -16,7 +16,7 @@ router.get('/', isUser, async function (req, res, next){
     // #swagger.tags = ['Cart']
     // #swagger.description = 'Gets cart of user'
     // #swagger.produces = ['json'] 
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let userid = UserId(req)
     let cart;
     try{
@@ -35,7 +35,7 @@ router.post('/', isUser, async function (req,res, next){
         'in' : 'body',
         'schema' : { $ref : '#/definitions/addtocart' },
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let data, cartid, membership;
     let userid = UserId(req)
     let product = req.body; 
@@ -58,10 +58,10 @@ router.post('/checkout/now', isUser, async function (req, res, next){
     // #swagger.tags = ['Cart']
     // #swagger.description = 'Checks out users cart and creates order.'
     // #swagger.produces = ['json']
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let orderid = randomstring.generate({ length : 8 })
     let userid = UserId(req)
-    let cart, membership,order,finish, cartupdate; 
+    let cart, membership,order, cartupdate; 
     let quantity = 0; 
     try{
     //get cart of user, Products, discount,cartid, membership
@@ -82,12 +82,12 @@ router.post('/checkout/now', isUser, async function (req, res, next){
         })
 
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
-    //create transaciton for all steps creating an order/update memebership/"remove" items from cart
+    //create transaciton for all steps creating an order/update membership/"remove" items from cart
     const t = await db.sequelize.transaction();
     try{
     
     //create order
-    order = await orderServices.createOrder( cartupdate, { transaction : t } )
+    order = await orderServices.createOrder( cartupdate, t )
    
     //remove cartitems from cart(softdelete, Processed = 1)
     await cartServices.checkoutCart( cart[0].id, t )
@@ -102,26 +102,26 @@ router.post('/checkout/now', isUser, async function (req, res, next){
         newValue.OrderId = orders.id
         return newValue;
     });
-
     //create userorder
-    finish = await orderServices.createUserOrder( userorder, { transaction : t } )
+    await orderServices.createUserOrder( userorder, { transaction : t } )
+    await orderServices.createUserProgress( userorder, t )
 
     t.commit()
    }catch(err){ t.rollback(); console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot check out cart. Please check quantity of products."}}); return; }     
     res.status(200).json({ status : "success", statusCode : 200, data : { result : `Order has been created!`} })
 });
- 
+  
 //req body = productid,quantity
-router.put('/', isUser,  async function (req,res, next){
+router.put('/', isUser,  async function (req,res, next){ 
     // #swagger.tags = ['Cart']
     // #swagger.description = 'Alters a product in cart/decrement'
-    // #swagger.produces = ['json']
+    // #swagger.produces = ['json'] 
     /* #swagger.parameters['body'] = {
         'required' : true,
         'in' : 'body',
         'schema' : { $ref : '#/definitions/altercart' },
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let userid = UserId(req)
     let product = req.body
     try{
@@ -141,7 +141,7 @@ router.delete('/', isUser, async function (req, res, next){
         'in' : 'body',
         'schema' : { $ref : '#/definitions/deletecart' },
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/User"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let userid = UserId(req)
     let productid = req.body?.productid;
     if(!req.body.productid){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "productid must be provided."} }); return;}

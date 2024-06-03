@@ -6,7 +6,9 @@ const { cookieCheck } = require('../services/middleware');
 let brands;
 
 router.get('/', cookieCheck, async function (req, res, next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Brands']
+    // #swagger.description = 'Gets list of all brands'
+    // #swagger.produces = ['json']
     getbrands = await axios({
         method : 'get',
         url : 'http://localhost:3000/brands'
@@ -18,7 +20,14 @@ router.get('/', cookieCheck, async function (req, res, next){
 
 //if !id - POST, else PUT
 router.post('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Brands']
+    // #swagger.description = 'Creates new brand or alters existing brand, if id - put request, !id - post''
+    // #swagger.produces = ['json']
+        /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/alterbrand' }
+    }*/
     let brand = req.body.brands;
     if(!req.body.id){
         create = await axios({
@@ -44,7 +53,14 @@ router.post('/', async function(req,res,next){
 })
 
 router.delete('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Brands']
+    // #swagger.description = 'Deletes brand of provided id, ondelete - restrict.'
+    // #swagger.produces = ['json']
+        /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
     let id = req.body.id;
     product = await axios({
         method : 'delete',

@@ -49,7 +49,7 @@ router.post('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/postproduct' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let product = req.body;
     try {
         result = await productServices.createProduct(product);  
@@ -75,7 +75,7 @@ router.put('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/alterproduct' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
         let product = req.body;
         if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
         let result;
@@ -97,7 +97,7 @@ router.delete('/', isAdmin, async function(req, res, next) {
         'in' : 'body',
         'schema' : { $ref : '#/definitions/delete' }
     }*/
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header", "schema" : { $ref : "#/security/Admin"}}
+    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}}
     if(!req.body.id){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "id of product must be provided"}}); return;}
     let id = req.body.id;
     let result;

@@ -7,7 +7,9 @@ let categories;
 let brands;
 
 router.get('/', cookieCheck, async function(req, res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Product']
+    // #swagger.description = 'Gets list of all products'
+    // #swagger.produces = ['json']
     getproducts = await axios({
         method : 'get',
         url : 'http://localhost:3000/products'
@@ -30,7 +32,14 @@ router.get('/', cookieCheck, async function(req, res,next){
 })
 
 router.post('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Search']
+    // #swagger.description = 'searches for brand name/ category name or partial product name(specified in type) '
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/search' }
+    }*/
     let search = req.body; 
     item = search.item;
     type = search.type;
@@ -48,7 +57,14 @@ router.post('/', async function(req,res,next){
 
 //if !id - POST else put
 router.post('/new', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Product']
+    // #swagger.description = 'Creates new product or alters existing product, if id - put request, !id - post'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/alterproduct' }
+    }*/
     let product = req.body;
 
     if(!req.body.id){
@@ -72,7 +88,14 @@ router.post('/new', async function(req,res,next){
 
 
 router.delete('/', async function(req,res,next){
-    // #swagger.ignore = true
+    // #swagger.tags = ['Admin Product']
+    // #swagger.description = 'Deletes product of provided id, softdelete(changes Processed : 1)'
+    // #swagger.produces = ['json']
+    /* #swagger.parameters['body'] = {
+        'required' : true,
+        'in' : 'body',
+        'schema' : { $ref : '#/definitions/delete' }
+    }*/
     let id = req.body.id;
 
     product = await axios({

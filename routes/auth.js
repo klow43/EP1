@@ -12,7 +12,7 @@ const jsonParser = bodyParser.json();
 //req.body = name(username or email), password
 router.post('/login', async function(req, res, next) {
     // #swagger.tags = ['Login']
-    // #swagger.description = 'Logs user or admin into application, provides JWT token for 2 hours'
+    // #swagger.description = 'Logs user or admin into application, provides JWT token valid for 2 hours'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,
