@@ -33,7 +33,7 @@ module.exports = {
     loginAdmin : (token) => {
       let result;
       jwt.verify(token, process.env.TOKEN_SECRET, ( err,valid ) => {
-        if(err){ res.status(401).json({ status : "error", statusCode : 401, data : { result : err.message } }) }
+        if(err){ return; }
         valid.UserRoleId == 1 ? result = true : result = false;
       }) 
       return result;  
