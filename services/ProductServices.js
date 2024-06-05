@@ -86,9 +86,9 @@ class ProductService {
     }
 
     //actual deletion
-    async destroyProduct(Productid){
+    async destroyProduct(Product){
         return await this.Product.destroy({
-            where : { id : Productid }
+            where : { name : Product.name }
         }).catch( err => { console.log(err); return err })
     }
 

@@ -12,6 +12,8 @@ DIALECT<br>
 DIALECTMODEL<br>
 TOKEN_SECRET<br>
 COOKIE_SECRET<br>
+ADMIN_USER_PASSWORD<br>
+-this variable is needed for testing user login<br>
 --------<br>
 PORT<br>
 HOST<br>
@@ -49,9 +51,29 @@ Setup a .env file for variables needed to run this app.(see above .env variables
 run "npm i" in terminal to download all packages required to run this application.<br>
 when all packages are downloaded, run "npm start" to launch app.<br>
 use a POST request to endpoint "your url here" /init to populate database with initial data. <br>
-to create/run swagger documentation run "npm run swagger" in terminal, app will automatically run<br>
-NOTICE!! using /doc remember to put "Bearer " in front of token for endpoints requiring authentication!! -notice no quotationmarks in example,  space after Bearer <br>
-fx : Bearer token
+
+
+### Swagger
+To run swagger documentation run "npm run swagger" in terminal, app will automatically run<br>
+NOTICE!! using /doc remember to put "Bearer " in front of token for endpoints requiring authentication!! <br>
+-notice no quotationmarks in example, space after Bearer <br>
+Example : <br>
+Bearer token <br>
+
+### Testing
+Running tests: <br>
+-Do not run npm test alone, as requirements set category name to "TEST_CATEGORY" in both category and product test<br>
+
+To run user login test, in terminal : <br>
+npm test user.test<br>
+
+To run CRUD on category test, in terminal  :<br>
+npm test category.test<br>
+
+To run CRUD on products test, in terminal : <br>
+npm test product.test<br>
+-test on products with only softdelete product, test_category = restrict<br>
+run 'npm productcleanup.test' to delete TEST_PRODUCT and TEST_CATEGORY from product.test run.
 
 
 ### References :
@@ -68,7 +90,7 @@ Documentation comparing axios vs fetch<br>
 https://apidog.com/blog/axios-vs-fetch/#error-handling-axios-vs-fetch
 
 Update multiple records through service file with .update : <br>
- - [Op.in] : [] (OrderServices, update all orders with OrderId, cannot bulkUpdate) <br>
+ - [Op.in] : [] (OrderServices, update all orders with OrderId, cannot bulkUpdate with update) <br>
 https://stackoverflow.com/questions/49643047/update-multiple-rows-in-sequelize-with-different-conditions
 
 Trigger hooks when bulkUpdate(normally ignore if not specified individualHooks : true)<br>
