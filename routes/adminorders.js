@@ -56,7 +56,6 @@ router.delete('/', async function(req, res, next){
         'in' : 'body',
         'schema' : { $ref : '#/definitions/deleteorder' }
     }*/
-    console.log(req.body)
     deleteOrder = await axios({
         method : 'delete',
         url : 'http://localhost:3000/orders',
