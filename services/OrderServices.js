@@ -16,8 +16,8 @@ class OrderService {
 
     async getOrder(orderid){
         return await this.Order.findAll({
-            where : { OrderId : orderid },
-            attributes : ['Id']
+            where : { orderId : orderid },
+            attributes : ['id']
         }).catch( err => { console.log(err); return err }) 
     }
 

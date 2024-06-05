@@ -11,7 +11,7 @@ const { describe } = require('node:test');
 //GET all products - get id of new product
 //GET product of (newly created) id in path
 //PUT new product(price) = 1000
-//DELETE new product - Processed = 1(soft delete)
+//DELETE new product - deletedAt = 1(soft delete)
 
 describe('test-/products-CRUD', () => {
     let token;

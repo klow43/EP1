@@ -56,8 +56,9 @@ router.put('/', isAdmin, async function(req, res, next){
     try{
         //get all records associated to orderid(string)
         let orderproducts = await orderServices.getOrder(order.orderid)
+        if(orderproducts[0] == null){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "No orderid of provided id"}});return}
         //create array of keys associated to OrderId
-        let orderids = orderproducts.map(x => { return x.Id })
+        let orderids = orderproducts.map(x => { return x.id })
         //update all records associated to OrderId(string)
         await orderServices.alterOrder( orderids, req.body.statusid )
     }catch(err){ console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot update orderstatus"}}); return;}
