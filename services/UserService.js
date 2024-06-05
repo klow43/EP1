@@ -24,6 +24,7 @@ class UserService {
 
     async getUsers(){
         return await this.User.findAll({
+            include : 'UserRole' ,
             attributes : ['id', 'firstName', 'lastName', 'email', 'phone', 'userName', 'address', 'createdAt', 'updatedAt']},
         ).catch( err => { console.log(err); return err })
     }
