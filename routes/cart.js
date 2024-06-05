@@ -14,7 +14,7 @@ const randomstring = require('randomstring');
 //only users all endpoints.
 router.get('/', isUser, async function (req, res, next){
     // #swagger.tags = ['Cart']
-    // #swagger.description = 'Gets cart of user'
+    // #swagger.description = 'Gets products in cart of user if products not Processed : 1'
     // #swagger.produces = ['json'] 
     // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let userid = UserId(req)
@@ -28,7 +28,7 @@ router.get('/', isUser, async function (req, res, next){
 //req body = productid, quantity, unitPrice
 router.post('/', isUser, async function (req,res, next){ 
     // #swagger.tags = ['Cart']
-    // #swagger.description = 'Adds product to users shopping cart'
+    // #swagger.description = 'Adds product to users shopping cart, if product does not have Processed : 1'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,

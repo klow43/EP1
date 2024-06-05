@@ -7,7 +7,7 @@ const searchServices = new SearchServices(db);
 
 router.post('/', async function (req, res, next){
      // #swagger.tags = ['Search']
-    // #swagger.description = 'Searches products by partial product name/brand or category(partial name only product)'
+    // #swagger.description = 'Searches products by type : (brand/category/product), search : (partial product name or specific brand/category)'
     // #swagger.produces = ['json']
     /* #swagger.parameters['body'] = {
         'required' : true,

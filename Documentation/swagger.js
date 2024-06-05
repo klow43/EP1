@@ -31,26 +31,26 @@ const doc = {
             $address : 'The ice rank 69'
         },
 
-        postbrand : { $brands : 'Ontario sportswear' },
-        alterbrand : { $id :  1, $brands : 'Ontario sportswear' },
+        postbrand : { $brand : 'Ontario sportswear' },
+        alterbrand : { $id :  1, $brand : 'Ontario' },
         delete : { $id : 2 },
 
         addtocart : { $productid : 1, $quantity : 2, $unitPrice : 49.99 },
         altercart : { $productid : 1, $quantity : 1 },
         deletecart : { $productid : 1 },
 
-        postcategory : { $categories : 'Hockey jerseys'},
-        altercategory : { $categories : 'Hockey jerseys', $id : 69 },
+        postcategory : { $category : 'Hockey jerseys'},
+        altercategory : { $category : 'Hockey', $id : 69 },
 
         postmembership : {
-            $membership : 'NOSHO',
+            $Membership : 'NOSHO',
             $minItems : 69,
             $maxItems : 100,
             $discount : 60
         },
         altermembership : {
             $id : 1,
-            $membership : 'NOSHO',
+            $Membership : 'NOSHO',
             $minItems : 69,
             $maxItems : 100,
             $discount : 60
@@ -64,18 +64,23 @@ const doc = {
             $description : 'Hockey tickets for the NOSHO season',
             $price : 499.00,
             $quantity : 20,
-            $imgurl : 'https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1'
+            $imgurl : 'https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1',
+            $categoryid : 1,
+            $brandid : 1
         },
         alterproduct : {
             $id : 1,
             $name : 'Season tickets',
-            $description : 'Hockey tickets for the NOSHO season',
+            $description : 'Hockey tickets for the local season',
             $price : 499.00,
             $quantity : 20,
-            $imgurl : 'https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1'
+            $imgurl : 'https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1',
+            $categoryid : 1,
+            $brandid : 1,
+            $deletedAt : 0
         },
 
-        search : { $type : 'brand', $item : 'Ontario sportswear' },
+        search : { $type : 'brand', $search : 'Ontario sportswear' },
 
         alteruser : {
             $id : 2,

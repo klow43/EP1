@@ -1,0 +1,2212 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "EP1 Exam",
+    "description": "documentation for Noroff EP - e-commerce"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Admin Login"
+        ],
+        "description": "Gets login page for /admin ",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Login"
+        ],
+        "description": "Logs in for /admin, sets jwt token in axios, signs SESSION BASED cookie for a little shorter then jwt valid time.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/init/": {
+      "post": {
+        "tags": [
+          "Init"
+        ],
+        "description": "Populates initial products to db",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "208": {
+            "description": "Already Reported"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "Logs user or admin into application, provides JWT token valid for 2 hours",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Registration"
+        ],
+        "description": "Registers new user to the application",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/categories/": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Gets list of all categories",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Creates a new category",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postcategory"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Alters existing category of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/altercategory"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Deletes category of provided id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/categories/{categoryid}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Gets category of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "categoryid",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/brands/": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "description": "Gets list of all brands",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Brands"
+        ],
+        "description": "Creates new brand",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postbrand"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Brands"
+        ],
+        "description": "Alters brand of specififed id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterbrand"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Brands"
+        ],
+        "description": "Deletes brand of specfied id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/brands/{brandid}": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "description": "Gets brand of specified id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "brandid",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/products/": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Gets list of all products",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Creates new product",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postproduct"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Alters existing product",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterproduct"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Soft deletes product of provided id(sets deletedAt : 1)",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/products/{productid}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Gets product of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "productid",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/search/": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "description": "Searches products by type : (brand/category/product), search : (partial product name or specific brand/category)",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/search"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/orders/": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "If admin, a list of all orders will be provided, if user, users own orders will be provided",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Change status of provided order",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterorder"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Deletes",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/deleteorder"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/orders/statuses": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "list of all order status",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cart/": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Gets products in cart of user if products not Processed : 1",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Adds product to users shopping cart, if product does not have Processed : 1",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/addtocart"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Alters a product in cart/decrement",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/altercart"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Deletes item from cart",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/deletecart"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cart/checkout/now": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Checks out users cart and creates order.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{userid}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Gets user of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Gets list of users",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Alters user",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alteruser"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Delete user, original admin cannot be deleted",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/role": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Alter users role manually",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userrole"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/memberships/": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "Gets all memberships",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "Creates new membership",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postmembership"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "Creates new membership",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/altermembership"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "delete membership of provided id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          },
+          {
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/memberships/{membershipid}": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "Gets membership of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "membershipid",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/products/": {
+      "get": {
+        "tags": [
+          "Admin Product"
+        ],
+        "description": "Gets list of all products",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Search"
+        ],
+        "description": "searches for brand name/ category name or partial product name(specified in type) ",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/search"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Product"
+        ],
+        "description": "Deletes product of provided id, softdelete(changes Processed : 1)",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/products/new": {
+      "post": {
+        "tags": [
+          "Admin Product"
+        ],
+        "description": "Creates new product or alters existing product, if id - put request, !id - post",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterproduct"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/brands/": {
+      "get": {
+        "tags": [
+          "Admin Brands"
+        ],
+        "description": "Gets list of all brands",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Brands"
+        ],
+        "description": "Creates new brand or alters existing brand, if id - put request, !id - post",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterbrand"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Brands"
+        ],
+        "description": "Deletes brand of provided id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/categories/": {
+      "get": {
+        "tags": [
+          "Admin Category"
+        ],
+        "description": "Gets list of categories",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Category"
+        ],
+        "description": "Creates new category or alters existing category, if id - put request, !id - post",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/altercategory"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Category"
+        ],
+        "description": "Deletes category of provided id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/memberships/": {
+      "get": {
+        "tags": [
+          "Admin Membership"
+        ],
+        "description": "Gets list of all memberships",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Membership"
+        ],
+        "description": "Creates new membership or alters existing membership, if id - put request, !id - post",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/altermembership"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Membership"
+        ],
+        "description": "Deletes membership of provided id, ondelete - restrict.",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/orders/": {
+      "get": {
+        "tags": [
+          "Admin Order"
+        ],
+        "description": "Gets list of all orders",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin Order"
+        ],
+        "description": "Alters order of provided ids status",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alterorder"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin Order"
+        ],
+        "description": "Deletes order of provided id",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/deleteorder"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/admin/users/": {
+      "get": {
+        "tags": [
+          "Admin User"
+        ],
+        "description": "Gets list of all users",
+        "produces": [
+          "json"
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin User"
+        ],
+        "description": "Alters existing user - THIS IS A PUT ENDPOINT-",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/alteruser"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin User"
+        ],
+        "description": "Deletes user of provided id, original admin cannot be deleted",
+        "produces": [
+          "json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/delete"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "login": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "email or username"
+        },
+        "password": {
+          "type": "string",
+          "example": "YouS@feP@ssw0rd"
+        }
+      },
+      "required": [
+        "name",
+        "password"
+      ]
+    },
+    "register": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Shoresy"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Waffles"
+        },
+        "email": {
+          "type": "string",
+          "example": "shoresy69@sudbluebulldogs.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "sodum"
+        },
+        "phone": {
+          "type": "number",
+          "example": 69
+        },
+        "userName": {
+          "type": "string",
+          "example": "neverLoose"
+        },
+        "address": {
+          "type": "string",
+          "example": "The ice rank 69"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "phone",
+        "userName",
+        "address"
+      ]
+    },
+    "postbrand": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "example": "Ontario sportswear"
+        }
+      },
+      "required": [
+        "brand"
+      ]
+    },
+    "alterbrand": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "brand": {
+          "type": "string",
+          "example": "Ontario"
+        }
+      },
+      "required": [
+        "id",
+        "brand"
+      ]
+    },
+    "delete": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "addtocart": {
+      "type": "object",
+      "properties": {
+        "productid": {
+          "type": "number",
+          "example": 1
+        },
+        "quantity": {
+          "type": "number",
+          "example": 2
+        },
+        "unitPrice": {
+          "type": "number",
+          "example": 49.99
+        }
+      },
+      "required": [
+        "productid",
+        "quantity",
+        "unitPrice"
+      ]
+    },
+    "altercart": {
+      "type": "object",
+      "properties": {
+        "productid": {
+          "type": "number",
+          "example": 1
+        },
+        "quantity": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "productid",
+        "quantity"
+      ]
+    },
+    "deletecart": {
+      "type": "object",
+      "properties": {
+        "productid": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "productid"
+      ]
+    },
+    "postcategory": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "example": "Hockey jerseys"
+        }
+      },
+      "required": [
+        "category"
+      ]
+    },
+    "altercategory": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "example": "Hockey"
+        },
+        "id": {
+          "type": "number",
+          "example": 69
+        }
+      },
+      "required": [
+        "category",
+        "id"
+      ]
+    },
+    "postmembership": {
+      "type": "object",
+      "properties": {
+        "Membership": {
+          "type": "string",
+          "example": "NOSHO"
+        },
+        "minItems": {
+          "type": "number",
+          "example": 69
+        },
+        "maxItems": {
+          "type": "number",
+          "example": 100
+        },
+        "discount": {
+          "type": "number",
+          "example": 60
+        }
+      },
+      "required": [
+        "Membership",
+        "minItems",
+        "maxItems",
+        "discount"
+      ]
+    },
+    "altermembership": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "Membership": {
+          "type": "string",
+          "example": "NOSHO"
+        },
+        "minItems": {
+          "type": "number",
+          "example": 69
+        },
+        "maxItems": {
+          "type": "number",
+          "example": 100
+        },
+        "discount": {
+          "type": "number",
+          "example": 60
+        }
+      },
+      "required": [
+        "id",
+        "Membership",
+        "minItems",
+        "maxItems",
+        "discount"
+      ]
+    },
+    "alterorder": {
+      "type": "object",
+      "properties": {
+        "orderid": {
+          "type": "string",
+          "example": "HX6TQ123"
+        },
+        "statusid": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "orderid",
+        "statusid"
+      ]
+    },
+    "deleteorder": {
+      "type": "object",
+      "properties": {
+        "orderid": {
+          "type": "string",
+          "example": "HX6TQ123"
+        }
+      },
+      "required": [
+        "orderid"
+      ]
+    },
+    "postproduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Season tickets"
+        },
+        "description": {
+          "type": "string",
+          "example": "Hockey tickets for the NOSHO season"
+        },
+        "price": {
+          "type": "number",
+          "example": 499
+        },
+        "quantity": {
+          "type": "number",
+          "example": 20
+        },
+        "imgurl": {
+          "type": "string",
+          "example": "https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1"
+        },
+        "categoryid": {
+          "type": "number",
+          "example": 1
+        },
+        "brandid": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "price",
+        "quantity",
+        "imgurl",
+        "categoryid",
+        "brandid"
+      ]
+    },
+    "alterproduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Season tickets"
+        },
+        "description": {
+          "type": "string",
+          "example": "Hockey tickets for the local season"
+        },
+        "price": {
+          "type": "number",
+          "example": 499
+        },
+        "quantity": {
+          "type": "number",
+          "example": 20
+        },
+        "imgurl": {
+          "type": "string",
+          "example": "https://i0.wp.com/puckjunk.com/wp-content/uploads/2024/05/Shoresy-Poster.jpg?ssl=1"
+        },
+        "categoryid": {
+          "type": "number",
+          "example": 1
+        },
+        "brandid": {
+          "type": "number",
+          "example": 1
+        },
+        "deletedAt": {
+          "type": "number",
+          "example": 0
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price",
+        "quantity",
+        "imgurl",
+        "categoryid",
+        "brandid",
+        "deletedAt"
+      ]
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "brand"
+        },
+        "search": {
+          "type": "string",
+          "example": "Ontario sportswear"
+        }
+      },
+      "required": [
+        "type",
+        "search"
+      ]
+    },
+    "alteruser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 2
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Shoresy"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Waffles"
+        },
+        "phone": {
+          "type": "number",
+          "example": 69
+        },
+        "userName": {
+          "type": "string",
+          "example": "neverLoose"
+        },
+        "address": {
+          "type": "string",
+          "example": "The ice rank 69"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "phone",
+        "userName",
+        "address"
+      ]
+    },
+    "usermembership": {
+      "type": "object",
+      "properties": {
+        "userid": {
+          "type": "number",
+          "example": 2
+        },
+        "membershipid": {
+          "type": "number",
+          "example": 2
+        }
+      },
+      "required": [
+        "userid",
+        "membershipid"
+      ]
+    },
+    "userrole": {
+      "type": "object",
+      "properties": {
+        "userid": {
+          "type": "number",
+          "example": 2
+        },
+        "roleid": {
+          "type": "number",
+          "example": 1
+        }
+      },
+      "required": [
+        "userid",
+        "roleid"
+      ]
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "token",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
