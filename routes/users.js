@@ -23,6 +23,7 @@ router.get('/:userid', isAdmin, async function(req, res, next) {
     let userid = req.params.userid;
     try{
         result = await userServices.getUser(userid)
+        if(result == null){ res.status(400).json({ status : "error", statusCode : 400, data : { result : "No user of provided id"}}); return}
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot retrieved user."}}); return;}
     res.status(200).json({ status : "success", statusCode : 200, data : { user : result }})
 });
@@ -82,28 +83,6 @@ router.delete('/', isAdmin, async function(req, res, next){
         res.status(200).json({ status : "success", statusCode : 200, data : { result : "User deleted."}})
 });
 
-
-//req.body = userid, membershipid
-router.put('/membership', isAdmin, async function(req, res, next){
-    // #swagger.tags = ['Users']
-    // #swagger.description = 'Alter users membership manually'
-    // #swagger.produces = ['json']
-    /* #swagger.parameters['body'] = {
-        'required' : true,
-        'in' : 'body',
-        'schema' : { $ref : '#/definitions/usermembership' }
-    }*/   
-    // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
-    if(!req.body.userid || !req.body.membershipid){res.status(400).json({ status : "error", statusCode : 400, data : { result : "userid and new membershipid must be provided"}});return;}
-    let membership = req.body;
-    let result;
-    try{
-        result = await membershipService.alterUserMembership(membership);
-    }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Server error. Cannot change users membership."}}); return;}
-    result[0] == 0 ? 
-        res.status(400).json({ status : "success", statusCode : 400, data : { result : "No user of provided id."}}) :
-            res.status(200).json({ status : "success", statusCode : 200, data : { result : "Users membership altered."}})
-})
 
 //req.body = userid, roleid (cannot change original admin : 1 )
 router.put('/role', isAdmin, async function(req, res,next) {

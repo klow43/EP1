@@ -51,6 +51,7 @@ router.post('/', isAdmin, async function(req, res, next) {
     }*/
     // #swagger.parameters['authorization'] = {"required" : true, "in" : "header"}
     let product = req.body;
+    if(!req.body.categoryid || !req.body.brandid) {  res.status(400).json({ status : "error", statusCode : 400, data : { result : 'categoryid and brandid must be provided' } }); return; }
     try {
         result = await productServices.createProduct(product);  
     }catch(err) { console.log(err); res.status(500).json({ status : "error", statusCode : 500, data : { result : "Cannot post product, name already in use."}}); return;}
@@ -90,7 +91,7 @@ router.put('/', isAdmin, async function(req, res, next) {
 
 router.delete('/', isAdmin, async function(req, res, next) {
     // #swagger.tags = ['Products']
-    // #swagger.description = 'Soft deletes product of provided id(sets Processed : 1)'
+    // #swagger.description = 'Soft deletes product of provided id(sets deletedAt : 1)'
     // #swagger.produces = ['json']
        /* #swagger.parameters['body'] = {
         'required' : true,
