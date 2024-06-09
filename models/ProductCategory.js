@@ -6,7 +6,7 @@ module.exports = ( sequelize, Sequelize ) => {
 );
     ProductCategories.associate = function(models) {
         ProductCategories.belongsTo( models.Category )
-        ProductCategories.belongsTo( models. Product )
+        ProductCategories.belongsTo( models.Product )
     }
     return ProductCategories
 }
